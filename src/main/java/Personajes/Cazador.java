@@ -1,6 +1,10 @@
+package Personajes;
+
+import Equipo.Arma;
+import Equipo.Armadura;
+
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
 
 public class Cazador extends Personaje implements Serializable {
     private int puntosVoluntad;

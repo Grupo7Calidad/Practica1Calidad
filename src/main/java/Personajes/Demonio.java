@@ -1,3 +1,5 @@
+package Personajes;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,15 +43,15 @@ public class Demonio extends Esbirro implements Serializable {
     }
 
     private Humano crearHumano() {
-        return new Humano(generarNombre("Humano"), generarSalud(), generarLealtad());
+        return new Humano(generarNombre("Personajes.Humano"), generarSalud(), generarLealtad());
     }
 
     private Ghoul crearGhoul() {
-        return new Ghoul(generarNombre("Ghoul"), generarSalud(), generarIndependencia());
+        return new Ghoul(generarNombre("Personajes.Ghoul"), generarSalud(), generarIndependencia());
     }
 
     private Demonio crearDemonio() {
-        String nombre = generarNombre("Demonio");
+        String nombre = generarNombre("Personajes.Demonio");
         return new Demonio(nombre, generarSalud(), nombre + " ha pactado con " + getNombre());
     }
 
@@ -87,7 +89,7 @@ public class Demonio extends Esbirro implements Serializable {
 
     @Override
     public void mostrarEsbirro() {
-        System.out.println("Tipo: Demonio");
+        System.out.println("Tipo: Personajes.Demonio");
         System.out.println("Nombre: " + getNombre());
         System.out.println("Salud: " + getSalud());
         if (!getConjuntoEsbirros().isEmpty()) {

@@ -1,3 +1,5 @@
+package Personajes;
+
 import java.io.Serializable;
 
 public abstract class Esbirro implements Serializable {

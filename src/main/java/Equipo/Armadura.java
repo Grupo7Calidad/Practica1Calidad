@@ -1,3 +1,5 @@
+package Equipo;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -8,7 +10,7 @@ public class Armadura extends Equipo implements Serializable {
 
     @Override
     public void mostrarEquipo() {
-        System.out.println("Tipo: Armadura");
+        System.out.println("Tipo: Equipo.Armadura");
         System.out.println("Nombre: " + getNombre());
         System.out.println("Modificador de ataque: " + getModAtaque());
         System.out.println("Modificador de defensa: " + getModDefensa());

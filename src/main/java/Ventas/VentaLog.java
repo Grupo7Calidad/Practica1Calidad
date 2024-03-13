@@ -1,5 +1,9 @@
+package Ventas;
+
+import Equipo.Equipo;
+import Personajes.Esbirro;
+
 import java.io.Serializable;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -20,14 +24,14 @@ public class VentaLog implements Serializable {
     }
     public void imprimirLog(){
         System.out.print("Fecha: " + fecha);
-        System.out.println("Usuario vendedor: " + usuarioVendedor);
-        System.out.println("Usuario comprador: " + usuarioComprador);
+        System.out.println("Usuario.Usuario vendedor: " + usuarioVendedor);
+        System.out.println("Usuario.Usuario comprador: " + usuarioComprador);
         System.out.println("Precio: " + precio);
         System.out.println("Artículos vendidos: ");
         int i;
         if (!listaEquipo.isEmpty()){
             i = 0;
-            System.out.println("Equipo: ");
+            System.out.println("Equipo.Equipo: ");
             for (Equipo equipo: listaEquipo ) {
                 System.out.println(i + ") ");
                 equipo.mostrarEquipo();

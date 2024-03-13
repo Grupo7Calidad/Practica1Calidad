@@ -1,10 +1,17 @@
+package Sistema;
+
+import Observers.Notificador;
+import Observers.Observador;
+import Usuario.Usuario;
+import Usuario.Jugador;
+
 import java.util.List;
 import java.util.Scanner;
 
 public class SuscripcionOferta {
     private Scanner sc;
     private String filtro;
-    private Usuario usuario; // Asumiendo que hay una clase Usuario
+    private Usuario usuario; // Asumiendo que hay una clase Usuario.Usuario
     private List<Notificador> listaNotificadores; // Asumiendo una lista de notificadores
 
     public SuscripcionOferta(Scanner sc, Usuario usuario, List<Notificador> listaNotificadores) {
@@ -209,7 +216,7 @@ public class SuscripcionOferta {
     }
 
     private void suscripcionPorLealtad() {
-        filtro = "Suscripcion por lealtad de Esbirro: \n";
+        filtro = "Suscripcion por lealtad de Personajes.Esbirro: \n";
         System.out.println("Elige una opcion para suscribirse");
         System.out.println("1 - ALTA");
         System.out.println("2 - MEDIA");
@@ -235,23 +242,23 @@ public class SuscripcionOferta {
     private void suscripcionPorTipoEsbirro() {
         filtro = "Suscripcion por tipo de esbirro: \n";
         System.out.println("Elige una opcion para suscribirse");
-        System.out.println("1 - Demonio");
-        System.out.println("2 - Ghoul");
-        System.out.println("3 - Cazador");
-        System.out.println("0 - Humano");
+        System.out.println("1 - Personajes.Demonio");
+        System.out.println("2 - Personajes.Ghoul");
+        System.out.println("3 - Personajes.Cazador");
+        System.out.println("0 - Personajes.Humano");
         int opcion;
         do {
             opcion = sc.nextInt();
         } while (opcion < 0 || opcion > 3);
         switch (opcion) {
             case 1:
-                filtro = filtro.concat("-Demonio");
+                filtro = filtro.concat("-Personajes.Demonio");
                 break;
             case 2:
-                filtro = filtro.concat("-Ghoul");
+                filtro = filtro.concat("-Personajes.Ghoul");
                 break;
             case 3:
-                filtro = filtro.concat("-Humano");
+                filtro = filtro.concat("-Personajes.Humano");
                 break;
         }
     }
@@ -259,9 +266,9 @@ public class SuscripcionOferta {
     private void suscripcionPorTipoUsuario() {
         filtro = "Suscripcion por tipo de usuario: \n";
         System.out.println("Elige una opcion para suscribirse");
-        System.out.println("1 - Licantropo");
-        System.out.println("2 - Vampiro");
-        System.out.println("3 - Cazador");
+        System.out.println("1 - Personajes.Licantropo");
+        System.out.println("2 - Personajes.Vampiro");
+        System.out.println("3 - Personajes.Cazador");
         System.out.println("0 - Salir");
         int opcion;
         do {
@@ -269,13 +276,13 @@ public class SuscripcionOferta {
         } while (opcion < 0 || opcion > 3);
         switch (opcion) {
             case 1:
-                filtro = filtro.concat("-Licantropo");
+                filtro = filtro.concat("-Personajes.Licantropo");
                 break;
             case 2:
-                filtro = filtro.concat("-Vampiro");
+                filtro = filtro.concat("-Personajes.Vampiro");
                 break;
             case 3:
-                filtro = filtro.concat("-Cazador");
+                filtro = filtro.concat("-Personajes.Cazador");
                 break;
         }
     }

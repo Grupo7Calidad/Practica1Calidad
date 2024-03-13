@@ -1,6 +1,10 @@
+package Personajes;
+
+import Equipo.Arma;
+import Equipo.Armadura;
+
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Scanner;
 
 public class CrearVampiro extends Creator implements Serializable {

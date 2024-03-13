@@ -1,6 +1,10 @@
+package Personajes;
+
+import Equipo.Arma;
+import Equipo.Armadura;
+
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
 
 public abstract class Personaje implements Serializable {
     private String nombre;

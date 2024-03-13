@@ -1,12 +1,16 @@
+package Personajes;
+
+import Equipo.Arma;
+import Equipo.Armadura;
+
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Scanner;
 
 public class CrearLicantropo extends Creator implements Serializable {
     //Scanner sc = new Scanner(System.in);
     @Override
-    public Personaje crearPersonaje(String nombre, ArrayList<Arma> listaArmas, ArrayList<Arma> armasActivas, ArrayList<Armadura> listaArmaduras, ArrayList<Esbirro> listaEsbirros, int cantidadOro,Scanner sc) {
+    public Personaje crearPersonaje(String nombre, ArrayList<Arma> listaArmas, ArrayList<Arma> armasActivas, ArrayList<Armadura> listaArmaduras, ArrayList<Esbirro> listaEsbirros, int cantidadOro, Scanner sc) {
         System.out.println("Introduzca un valor de rabia entre (0 - 3)");
         int rabia = sc.nextInt();
         while (rabia < 0 || rabia > 3) {

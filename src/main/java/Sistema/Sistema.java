@@ -1,5 +1,36 @@
-import java.io.*;
-import java.util.*;
+package Sistema;
+
+import Equipo.Arma;
+import Equipo.Armadura;
+import Equipo.Equipo;
+import Observers.Notificador;
+import Observers.Observador;
+import Personajes.CrearCazador;
+import Personajes.CrearLicantropo;
+import Personajes.CrearVampiro;
+import Personajes.Demonio;
+import Personajes.Esbirro;
+import Personajes.Ghoul;
+import Personajes.Humano;
+import Personajes.Personaje;
+import Personajes.Vampiro;
+import Usuario.Jugador;
+import Usuario.Operador;
+import Usuario.Usuario;
+import Ventas.Oferta;
+import Ventas.VentaLog;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.InputMismatchException;
+import java.util.List;
+import java.util.Random;
+import java.util.Scanner;
 
 public class Sistema implements Serializable {
     private Usuario usuario;
@@ -41,7 +72,7 @@ public class Sistema implements Serializable {
         for (int i = 0; i < listaOfertas.size(); i++) {
             Oferta oferta = listaOfertas.get(i);
             if (!oferta.getUsuarioVendedor().getNick().equals(usuario.getNick())) {
-                System.out.println("Oferta numero " + (i + 1) + ")");
+                System.out.println("Ventas.Oferta numero " + (i + 1) + ")");
                 oferta.mostrarOferta();
                 ofertasMostradas++;
             }
@@ -201,8 +232,8 @@ public class Sistema implements Serializable {
 
     private void mostrarMenuRegistro() {
         System.out.println("Como quieres registrate:");
-        System.out.println("1. Jugador");
-        System.out.println("2. Operador");
+        System.out.println("1. Usuario.Jugador");
+        System.out.println("2. Usuario.Operador");
         System.out.println("3. Volver al menú de inicio");
     }
 
@@ -506,11 +537,11 @@ public class Sistema implements Serializable {
     }
 
     private void mostrarOroPersonaje() {
-        System.out.println("Cantidad de oro del Personaje: " + p.getCantidadOro() + " monedas de oro");
+        System.out.println("Cantidad de oro del Personajes.Personaje: " + p.getCantidadOro() + " monedas de oro");
     }
 
     private void mostrarArmasPersonaje() {
-        System.out.println("Armas del Personaje:");
+        System.out.println("Armas del Personajes.Personaje:");
         if (!p.getListaArmas().isEmpty()) {
             int i = 1;
             for (Arma arma : p.getListaArmas()) {
@@ -524,7 +555,7 @@ public class Sistema implements Serializable {
     }
 
     private void mostrarArmadurasPersonaje() {
-        System.out.println("Armaduras del Personaje:");
+        System.out.println("Armaduras del Personajes.Personaje:");
         if (!p.getListaArmaduras().isEmpty()) {
             int i = 1;
             for (Armadura armadura : p.getListaArmaduras()) {
@@ -549,7 +580,7 @@ public class Sistema implements Serializable {
     }
 
     private void mostrarEsbirrosPersonaje() {
-        System.out.println("Esbirros del Personaje:");
+        System.out.println("Esbirros del Personajes.Personaje:");
         if (!p.getListaEsbirros().isEmpty()) {
             for (Esbirro esbirro : p.getListaEsbirros()) {
                 esbirro.mostrarEsbirro();
@@ -583,9 +614,9 @@ public class Sistema implements Serializable {
 
     public void crearEsbirro(Scanner sc) {
         System.out.println("Elige el tipo de esbirro que quieres crear");
-        System.out.println("1 - Humano");
-        System.out.println("2 - Ghoul");
-        System.out.println("3 - Demonio");
+        System.out.println("1 - Personajes.Humano");
+        System.out.println("2 - Personajes.Ghoul");
+        System.out.println("3 - Personajes.Demonio");
         int opcion = sc.nextInt();
         System.out.println("Introduce el nombre del esbirro");
         String nombreEsbirro = sc.next();
@@ -664,9 +695,9 @@ public class Sistema implements Serializable {
         int opcionRol;
         p = crearPersonajeBase(sc);
         System.out.println("Elige un rol");
-        System.out.println("1. Cazador");
-        System.out.println("2. Vampiro");
-        System.out.println("3. Licantropo");
+        System.out.println("1. Personajes.Cazador");
+        System.out.println("2. Personajes.Vampiro");
+        System.out.println("3. Personajes.Licantropo");
         opcionRol = sc.nextInt();
         switch (opcionRol) {
             case 1:
@@ -693,27 +724,27 @@ public class Sistema implements Serializable {
 
     public void iniciarSesion(Scanner sc) throws IOException {
 
-            System.out.println("Nombre de usuario");
-            String nick = sc.next();
-            System.out.println("Contraseña");
-            String contraseña = sc.next();
+        System.out.println("Nombre de usuario");
+        String nick = sc.next();
+        System.out.println("Contraseña");
+        String contraseña = sc.next();
 
-            if (comprobarSesion(nick, contraseña) && !encontrarBaneado(nick)) {
-                usuario = atribuirUsuario(nick,contraseña);
-                if (usuario != null)
-                    menuPrincipal(sc);
-                else{
-                    menuInicio(sc);
-                }
-            } else if (!comprobarSesion(nick, contraseña)) {
-                System.out.println("Inicio de sesion erroneo vuelva a intentarlo");
-                System.out.println();
-                menuInicio(sc);
-            } else {
-                System.out.println("Su usuario esta baneado");
-                System.out.println();
+        if (comprobarSesion(nick, contraseña) && !encontrarBaneado(nick)) {
+            usuario = atribuirUsuario(nick,contraseña);
+            if (usuario != null)
+                menuPrincipal(sc);
+            else{
                 menuInicio(sc);
             }
+        } else if (!comprobarSesion(nick, contraseña)) {
+            System.out.println("Inicio de sesion erroneo vuelva a intentarlo");
+            System.out.println();
+            menuInicio(sc);
+        } else {
+            System.out.println("Su usuario esta baneado");
+            System.out.println();
+            menuInicio(sc);
+        }
     }
 
     private Usuario atribuirUsuario(String nick, String contraseña) {
@@ -737,8 +768,8 @@ public class Sistema implements Serializable {
 
     public void modificarEquipo(Scanner sc) throws IOException {
         System.out.println("Seleccione una opcion");
-        System.out.println("1. Añadir Equipo");
-        System.out.println("2. Eliminar Equipo");
+        System.out.println("1. Añadir Equipo.Equipo");
+        System.out.println("2. Eliminar Equipo.Equipo");
         System.out.println("3. Elegir Armas Activas");
         System.out.println("4. Volver al menu principal");
         int opcion;
@@ -918,7 +949,7 @@ public class Sistema implements Serializable {
         int numeroOpcion = 1;
         for (Arma arma : listaArmas) {
             if (!armasActivas.contains(arma)) {
-                System.out.println("Arma " + numeroOpcion + ":\n");
+                System.out.println("Equipo.Arma " + numeroOpcion + ":\n");
                 arma.mostrarEquipo();
                 numeroOpcion++;
             }
@@ -994,9 +1025,9 @@ public class Sistema implements Serializable {
         ArrayList<String> materiales3 = new ArrayList<>(Arrays.asList("Hiero", "Acero", "Cuero", "Diamante"));
         ArrayList<String> materiales4 = new ArrayList<>(Arrays.asList("Diamante", "Hierro"));
         Armadura camisetaPrimark = new Armadura(1, 1, "Camiseta Primark", "Comun", materiales1);
-        Armadura armaduraBasica = new Armadura(1, 3, "Armadura Básica", "Raro", materiales2);
-        Armadura armaduraTortuga = new Armadura(1, 3, "Armadura Tortuga", "Epico", materiales4);
-        Armadura armaduraDentada = new Armadura(2, 2, "Armadura Dentada", "Legendaria", materiales3);
+        Armadura armaduraBasica = new Armadura(1, 3, "Equipo.Armadura Básica", "Raro", materiales2);
+        Armadura armaduraTortuga = new Armadura(1, 3, "Equipo.Armadura Tortuga", "Epico", materiales4);
+        Armadura armaduraDentada = new Armadura(2, 2, "Equipo.Armadura Dentada", "Legendaria", materiales3);
 
         conjuntoArmaduras = Arrays.asList(camisetaPrimark, armaduraBasica, armaduraTortuga, armaduraDentada);
 
@@ -1169,7 +1200,7 @@ public class Sistema implements Serializable {
         while (opcion < 4 && contador < 3) {
             System.out.println("Introduzca el tipo de artículo que quieres vender: ");
             System.out.println("1) Armas");
-            System.out.println("2) Armadura");
+            System.out.println("2) Equipo.Armadura");
             System.out.println("3) Esbirros");
             System.out.println("4) Cancelar");
             if (contador >= 1) {
@@ -1500,4 +1531,3 @@ public class Sistema implements Serializable {
         return conjuntoArmaduras;
     }
 }
-

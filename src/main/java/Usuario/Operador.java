@@ -1,3 +1,5 @@
+package Usuario;
+
 import java.io.Serializable;
 
 public class Operador extends Usuario implements Serializable {

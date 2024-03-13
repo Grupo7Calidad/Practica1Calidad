@@ -3,3 +3,5 @@ out/
 
 # Ignorar el directorio .idea (usado por IntelliJ IDEA)
 .idea/
+
+target/
