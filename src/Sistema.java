@@ -1,90 +1,150 @@
 import java.io.*;
-import java.net.PortUnreachableException;
 import java.util.*;
 
 public class Sistema implements Serializable {
     private Usuario usuario;
-    private ArrayList<Usuario> whiteList, blackList = new ArrayList<>();
-    private ArrayList<Oferta> listaOfertas, listaOfertasNoValidadas = new ArrayList<>();
-    private ArrayList<Notificador> listaNotificadores = new ArrayList<>();
-    private ArrayList<VentaLog> listaLogs = new ArrayList<>();
-    private ArrayList<Arma> conjuntoArmas = new ArrayList<>();
-    private ArrayList<Armadura> conjuntoArmaduras = new ArrayList<>();
+    private List<Usuario> whiteList, blackList = new ArrayList<>();
+    private List<Oferta> listaOfertas, listaOfertasNoValidadas = new ArrayList<>();
+    private List<Notificador> listaNotificadores = new ArrayList<>();
+    private List<VentaLog> listaLogs = new ArrayList<>();
+    private List<Arma> conjuntoArmas = new ArrayList<>();
+    private List<Armadura> conjuntoArmaduras = new ArrayList<>();
     private Personaje p;
+    private SuscripcionOferta suscripcionOferta;
 
     public Sistema() throws IOException {
-        if (listaOfertas == null){
-            listaOfertas = new ArrayList<>();
-        }
+        listaOfertas = new ArrayList<>();
         Scanner sc = new Scanner(System.in);
         inicializarArmaduras();
         inicializarArmas();
         menuInicio(sc);
+        suscripcionOferta = new SuscripcionOferta(sc, usuario, listaNotificadores);
     }
 
     public void consultarOferta(Scanner sc) {
-        int i = 1;
-        ArrayList <Oferta> copiaListaOfertas = new ArrayList<Oferta>(listaOfertas);
-        boolean mostrar = false;
-        if (!listaOfertas.isEmpty()) {
-            for (Oferta oferta : listaOfertas) {
-                if(!oferta.getUsuarioVendedor().getNick().equals(usuario.getNick())) {
-                    System.out.println("Oferta numero " + i + ")");
-                    oferta.mostrarOferta();
-                    mostrar = true;
-                }
-                i++;
-            }
-            if (mostrar){
-                System.out.println("----------------------------------");
-                System.out.println("Seleccione el numero de la oferta que quiere comprar o presione 0 para salir");
-                int option;
-                do{
-                    option = sc.nextInt();
-                } while(option > listaOfertas.size() || option < 0 );
-                if (option != 0) {
-                    boolean oroDisponible = comprarOferta(listaOfertas.get(option - 1));
-                    if (!oroDisponible) {
-                        System.out.println("No hay oro disponible");
-                    }
-                }
-            } else{
-                System.out.println("No hay ofertas ajenas disponibles");
-            }
-        } else {
+        if (listaOfertas.isEmpty()) {
             System.out.println("No hay ofertas disponibles");
+            return;
+        }
+
+        int ofertasMostradas = mostrarOfertas();
+
+        if (ofertasMostradas > 0) {
+            manejarSeleccionOferta(sc, ofertasMostradas);
+        } else {
+            System.out.println("No hay ofertas ajenas disponibles");
+        }
+    }
+
+    private int mostrarOfertas() {
+        int ofertasMostradas = 0;
+        for (int i = 0; i < listaOfertas.size(); i++) {
+            Oferta oferta = listaOfertas.get(i);
+            if (!oferta.getUsuarioVendedor().getNick().equals(usuario.getNick())) {
+                System.out.println("Oferta numero " + (i + 1) + ")");
+                oferta.mostrarOferta();
+                ofertasMostradas++;
+            }
+        }
+        return ofertasMostradas;
+    }
+
+    private void manejarSeleccionOferta(Scanner sc, int ofertasMostradas) {
+        System.out.println("----------------------------------");
+        System.out.println("Seleccione el numero de la oferta que quiere comprar o presione 0 para salir");
+
+        int option = leerOpcionValida(sc, ofertasMostradas);
+
+        if (option != 0) {
+            procesarCompraOferta(option);
+        }
+    }
+
+    private int leerOpcionValida(Scanner sc, int maxOption) {
+        int option;
+        do {
+            while (!sc.hasNextInt()) {
+                System.out.println("Por favor, ingrese un número válido.");
+                sc.next(); // descartar la entrada no válida
+            }
+            option = sc.nextInt();
+        } while (option > maxOption || option < 0);
+
+        return option;
+    }
+
+    private void procesarCompraOferta(int option) {
+        boolean oroDisponible = comprarOferta(listaOfertas.get(option - 1));
+        if (!oroDisponible) {
+            System.out.println("No hay oro disponible");
         }
     }
 
     private boolean comprarOferta(Oferta oferta) {
-        int cantidadOro = ((Jugador) usuario).getPersonaje().getCantidadOro();
-        if (cantidadOro >= oferta.getPrecio()) {
-            ((Jugador) usuario).getPersonaje().setCantidadOro(cantidadOro - oferta.getPrecio());
-            for (Equipo equipo : oferta.getListaEquipo()) {
-                if (equipo instanceof Arma) {
-                    Arma arma = ((Arma) equipo);
-                    ((Jugador) usuario).getPersonaje().addListaArmas(arma);
-                } else {
-                    Armadura armadura = ((Armadura) equipo);
-                    ((Jugador) usuario).getPersonaje().addListaArmaduras(armadura);
-                }
-            }
-            for (Esbirro esbirro : oferta.getListaEsbirros()) {
-                if (!(((Jugador) usuario).getPersonaje() instanceof Vampiro && esbirro instanceof Humano)){
-                    ((Jugador) usuario).getPersonaje().añadirEsbirro(esbirro);
-                } else{
-                    System.out.println("Un vampiro no puede comprar un humano");
-                }
-            }
-            VentaLog ventaLog = oferta.generarVentaLog(usuario.getNombre());
-            listaLogs.add(ventaLog);
-            ((Jugador) oferta.getUsuarioVendedor()).getPersonaje().setCantidadOro(cantidadOro + oferta.getPrecio());
-            listaOfertas.remove(oferta);
-            return true;
-        } else {
+        Jugador comprador = (Jugador) usuario;
+        int cantidadOro = comprador.getPersonaje().getCantidadOro();
+
+        if (!puedeComprar(cantidadOro, oferta.getPrecio())) {
             return false;
         }
+
+        procesarCompra(comprador, oferta);
+        return true;
     }
+
+    private boolean puedeComprar(int cantidadOro, int precio) {
+        return cantidadOro >= precio;
+    }
+
+    private void procesarCompra(Jugador comprador, Oferta oferta) {
+        actualizarOroComprador(comprador, oferta.getPrecio());
+        transferirEquipos(comprador, oferta);
+        transferirEsbirros(comprador, oferta);
+        registrarVenta(oferta);
+        actualizarOroVendedor(oferta);
+        removerOferta(oferta);
+    }
+
+    private void actualizarOroComprador(Jugador comprador, int precio) {
+        int nuevoOro = comprador.getPersonaje().getCantidadOro() - precio;
+        comprador.getPersonaje().setCantidadOro(nuevoOro);
+    }
+
+    private void transferirEquipos(Jugador comprador, Oferta oferta) {
+        for (Equipo equipo : oferta.getListaEquipo()) {
+            if (equipo instanceof Arma) {
+                comprador.getPersonaje().addListaArmas((Arma) equipo);
+            } else {
+                comprador.getPersonaje().addListaArmaduras((Armadura) equipo);
+            }
+        }
+    }
+
+    private void transferirEsbirros(Jugador comprador, Oferta oferta) {
+        for (Esbirro esbirro : oferta.getListaEsbirros()) {
+            if (!(comprador.getPersonaje() instanceof Vampiro && esbirro instanceof Humano)) {
+                comprador.getPersonaje().añadirEsbirro(esbirro);
+            } else {
+                System.out.println("Un vampiro no puede comprar un humano");
+            }
+        }
+    }
+
+    private void registrarVenta(Oferta oferta) {
+        VentaLog ventaLog = oferta.generarVentaLog(usuario.getNombre());
+        listaLogs.add(ventaLog);
+    }
+
+    private void actualizarOroVendedor(Oferta oferta) {
+        Jugador vendedor = (Jugador) oferta.getUsuarioVendedor();
+        int nuevoOro = vendedor.getPersonaje().getCantidadOro() + oferta.getPrecio();
+        vendedor.getPersonaje().setCantidadOro(nuevoOro);
+    }
+
+    private void removerOferta(Oferta oferta) {
+        listaOfertas.remove(oferta);
+    }
+
 
     public void menuInicio(Scanner sc) throws IOException {
         int opcionMI;
@@ -119,83 +179,123 @@ public class Sistema implements Serializable {
     }
 
     private void registrarCuenta(Scanner sc) throws IOException {
-        System.out.println("Como quieres registrate:");
-        System.out.println("1. Jugador");
-        System.out.println("2. Operador");
-        System.out.println("3. Volver al menú de inicio");
-        int opcion;
-        do {
-            opcion = sc.nextInt();
-            if (opcion < 1 || opcion >3){
-                System.out.println("Introduce una opcion correcta");
-            }
-        }while(opcion < 1 || opcion > 3);
+        mostrarMenuRegistro();
+        int opcion = obtenerOpcionValida(sc, 1, 3);
         switch (opcion) {
             case 1:
-                System.out.println("Introduce el nombre");
-                String nombre = sc.next();
-                String nick;
-                do { //solo hacer encontrarNick() si !whitelist.isEmpty()
-                    System.out.println("Introduce el nick");
-                    nick = sc.next();
-                } while (encontrarNick(nick));
-
-                System.out.println("Introduce la contraseña");
-                String contraseña = sc.next();
-                while (contraseña.length() < 8 || contraseña.length() > 12) {
-                    System.out.println("La contraseña debe ser entre 8 y 12, vuelva a intentarlo");
-                    contraseña = sc.next();
-                }
-                registrarPersonaje(sc);
-                Personaje personaje = p;
-
-                String numeroRegistro = calcularNumRegistro();
-                Jugador player = new Jugador(nombre, nick, contraseña, personaje, numeroRegistro);
-                usuario = player;
-                int opcionEquipo;
-                do {
-                    añadirEquipo(sc);
-                    System.out.println("Si quieres añadir mas equipo pulsa 1, sino, pulsa 0");
-                    opcionEquipo = sc.nextInt();
-                }while(opcionEquipo != 0);
-                elegirArmasActivas(sc);
+                registrarJugador(sc);
                 break;
             case 2:
-                System.out.println("Introduzca el codigo secreto o introduzca 1 para cancelar");
-                int codigo = sc.nextInt();
-                while (codigo != 1 && codigo != 1234) {
-                    System.out.println("Codigo incorrecto, vuelva intentarlo o cancele la accion");
-                    codigo = sc.nextInt();
-                }
-                switch (codigo) {
-                    case 1:
-                        registrarCuenta(sc);
-                        break;
-                    case 1234:
-                        System.out.println("Introduce el nombre");
-                        String nombreOperador = sc.next();
-                        String nickOperador;
-                        do {
-                            System.out.println("Introduce el nick");
-                            nickOperador = sc.next();
-                        } while (encontrarNick(nickOperador));
-
-                        System.out.println("Introduce la contraseña");
-                        String contraseñaOperador = sc.next();
-                        Operador admin = new Operador(nombreOperador, nickOperador, contraseñaOperador);
-                        usuario = admin;
-                        break;
-                }
+                registrarOperador(sc);
                 break;
             case 3:
                 menuInicio(sc);
-                break;
+                return; // Salir del método para no ejecutar el código posterior si se elige volver al menú.
         }
+
         if (opcion != 3){
             crearUsuario();
             menuPrincipal(sc);
         }
     }
+
+    private void mostrarMenuRegistro() {
+        System.out.println("Como quieres registrate:");
+        System.out.println("1. Jugador");
+        System.out.println("2. Operador");
+        System.out.println("3. Volver al menú de inicio");
+    }
+
+    private int obtenerOpcionValida(Scanner sc, int min, int max) {
+        int opcion;
+        do {
+            opcion = sc.nextInt();
+            if (opcion < min || opcion > max) {
+                System.out.println("Introduce una opcion correcta");
+            }
+        } while (opcion < min || opcion > max);
+        return opcion;
+    }
+
+    private void registrarJugador(Scanner sc) {
+        String nombre = obtenerInput(sc, "Introduce el nombre");
+        String nick = obtenerNickValido(sc);
+        String contraseña = obtenerContraseñaValida(sc);
+        registrarPersonaje(sc);
+        Personaje personaje = p; // Asumo que p es una variable de instancia
+
+        String numeroRegistro = calcularNumRegistro();
+        Jugador player = new Jugador(nombre, nick, contraseña, personaje, numeroRegistro);
+        usuario = player;
+
+        gestionarEquipamientoJugador(sc);
+        elegirArmasActivas(sc);
+    }
+
+    private void registrarOperador(Scanner sc) {
+        System.out.println("Introduzca el codigo secreto o introduzca 1 para cancelar");
+        int codigo = obtenerCodigoValido(sc);
+        if (codigo == 1) {
+            try {
+                registrarCuenta(sc);
+            }catch (Exception e){
+                throw new RuntimeException(e);
+            }
+        }
+
+        String nombre = obtenerInput(sc, "Introduce el nombre");
+        String nick = obtenerNickValido(sc);
+        String contraseña = obtenerContraseñaValida(sc);
+        Operador admin = new Operador(nombre, nick, contraseña);
+        usuario = admin;
+    }
+
+    private String obtenerInput(Scanner sc, String mensaje) {
+        System.out.println(mensaje);
+        return sc.next();
+    }
+
+    private String obtenerNickValido(Scanner sc) {
+        String nick;
+        do {
+            System.out.println("Introduce el nick");
+            nick = sc.next();
+        } while (encontrarNick(nick));
+        return nick;
+    }
+
+    private String obtenerContraseñaValida(Scanner sc) {
+        String contraseña;
+        do {
+            System.out.println("Introduce la contraseña");
+            contraseña = sc.next();
+            if (contraseña.length() < 8 || contraseña.length() > 12) {
+                System.out.println("La contraseña debe ser entre 8 y 12 caracteres");
+            }
+        } while (contraseña.length() < 8 || contraseña.length() > 12);
+        return contraseña;
+    }
+
+    private void gestionarEquipamientoJugador(Scanner sc) {
+        int opcionEquipo;
+        do {
+            añadirEquipo(sc);
+            System.out.println("Si quieres añadir más equipo pulsa 1, sino, pulsa 0");
+            opcionEquipo = sc.nextInt();
+        } while (opcionEquipo != 0);
+    }
+
+    private int obtenerCodigoValido(Scanner sc) {
+        int codigo;
+        do {
+            codigo = sc.nextInt();
+            if (codigo != 1 && codigo != 1234) {
+                System.out.println("Codigo incorrecto, vuelva intentarlo o cancele la accion");
+            }
+        } while (codigo != 1 && codigo != 1234);
+        return codigo;
+    }
+
 
     private void crearUsuario() throws IOException {
         if (whiteList != null) {
@@ -218,9 +318,37 @@ public class Sistema implements Serializable {
     }
 
     private void menuOperador(Scanner sc) throws IOException {
-        int opcionMOP;
+        int opcionMOP = 0;
+
+        while (opcionMOP != 5 && opcionMOP != 4) {
+            mostrarMenuPrincipal();
+            opcionMOP = obtenerOpcionValida(sc);
+
+            switch (opcionMOP) {
+                case 1:
+                    validarOferta(sc);
+                    break;
+                case 2:
+                    menuUsuario(sc);
+                    break;
+                case 3:
+                    consultarVentas();
+                    break;
+                case 4:
+                    darseDeBaja(sc);
+                    break;
+                case 5:
+                    salir(sc);
+                    break;
+                default:
+                    System.out.println("Opción no válida, por favor intente de nuevo.");
+            }
+        }
+    }
+
+    private void mostrarMenuPrincipal() {
         System.out.println("-----------------------------------------------------");
-        System.out.println("Bienvenido al menu principal " + usuario.getNick());
+        System.out.println("Bienvenido al menú principal " + usuario.getNick());
         System.out.println("Elige una de las siguientes opciones");
         System.out.println("1. Validar ofertas");
         System.out.println("2. Gestionar usuarios");
@@ -228,31 +356,19 @@ public class Sistema implements Serializable {
         System.out.println("4. Darse de baja");
         System.out.println("5. Salir");
         System.out.println("-----------------------------------------------------");
-        do{
-            opcionMOP = sc.nextInt();
-        } while(opcionMOP < 1 || opcionMOP > 5);
-
-        switch (opcionMOP) {
-            case 1:
-                validarOferta(sc);
-                break;
-            case 2:
-                menuUsuario(sc);
-                break;
-            case 3:
-                consultarVentas();
-                break;
-            case 4:
-                darseDeBaja(sc);
-                break;
-            case 5:
-                salir(sc);
-                break;
-        }
-        if (opcionMOP != 5 && opcionMOP != 4){
-            menuPrincipal(sc);
-        }
     }
+
+    private int obtenerOpcionValida(Scanner sc) {
+        while (!sc.hasNextInt()) {
+            System.out.println("Por favor, introduzca un número.");
+            sc.next(); // descartar la entrada incorrecta
+        }
+        int opcion = sc.nextInt();
+        // Consumir el salto de línea
+        sc.nextLine();
+        return opcion;
+    }
+
 
     private void menuJugador(Scanner sc) throws IOException {
         int opcionMJ;
@@ -304,7 +420,12 @@ public class Sistema implements Serializable {
     }
 
     private void menuAvanzadoPersonaje(Scanner sc) throws IOException {
-        int opcionMP2;
+        mostrarMenuAvanzado();
+        int opcionMP2 = obtenerOpcionValida(sc);
+        ejecutarAccionSeleccionada(opcionMP2, sc);
+    }
+
+    private void mostrarMenuAvanzado() {
         System.out.println("-----------------------------------------------------");
         System.out.println("Bienvenido al menu avanzado para personajes " + usuario.getNick());
         System.out.println("Elige una de las siguientes opciones");
@@ -313,13 +434,10 @@ public class Sistema implements Serializable {
         System.out.println("3. Consultar información del personaje");
         System.out.println("4. Volver al menu principal");
         System.out.println("-----------------------------------------------------");
-        do{
-            opcionMP2 = sc.nextInt();
-            if (opcionMP2 > 4 || opcionMP2 < 1) {
-                System.out.println("Introduce una opcion correcta");
-            }
-        }while(opcionMP2 > 4 || opcionMP2 < 1);
-        switch (opcionMP2) {
+    }
+
+    private void ejecutarAccionSeleccionada(int opcion, Scanner sc) throws IOException {
+        switch (opcion) {
             case 1:
                 modificarEquipo(sc);
                 break;
@@ -327,10 +445,12 @@ public class Sistema implements Serializable {
                 modificarOro(sc);
                 break;
             case 3:
-                consultarInformacionPersonaje(sc);
+                consultarInformacionPersonaje();
                 break;
+            // No es necesario incluir el caso 4 porque no realiza ninguna acción
         }
     }
+
 
     private void menuAvanzadoOfertas(Scanner sc) {
         int opcionMOF = -1;
@@ -355,7 +475,7 @@ public class Sistema implements Serializable {
                         consultarOferta(sc);
                         break;
                     case 3:
-                        suscribirseOferta(sc);
+                        suscripcionOferta.suscribirseOferta();
                         break;
                     case 4:
                         desuscribirse(sc);
@@ -368,7 +488,7 @@ public class Sistema implements Serializable {
                 sc.next();
             }
         }while (opcionMOF > 5 || opcionMOF < 1) ;
-        
+
     }
 
     private void darseDeBaja(Scanner sc) throws IOException {
@@ -377,53 +497,68 @@ public class Sistema implements Serializable {
         menuInicio(sc);
     }
 
-    public void consultarInformacionPersonaje(Scanner sc) throws IOException {
+    public void consultarInformacionPersonaje() throws IOException {
+        mostrarOroPersonaje();
+        mostrarArmasPersonaje();
+        mostrarArmadurasPersonaje();
+        mostrarArmasActivasPersonaje();
+        mostrarEsbirrosPersonaje();
+    }
+
+    private void mostrarOroPersonaje() {
         System.out.println("Cantidad de oro del Personaje: " + p.getCantidadOro() + " monedas de oro");
+    }
+
+    private void mostrarArmasPersonaje() {
         System.out.println("Armas del Personaje:");
-        int i = 0;
-        if(!p.getListaArmas().isEmpty()) {
-            while (i < p.getListaArmas().size()) {
-                if(!p.getArmasActivas().contains(p.getListaArmas().get(i))) {
-                    System.out.println(i + 1 + ". " + p.getListaArmas().get(i).getNombre());
+        if (!p.getListaArmas().isEmpty()) {
+            int i = 1;
+            for (Arma arma : p.getListaArmas()) {
+                if (!p.getArmasActivas().contains(arma)) {
+                    System.out.println(i++ + ". " + arma.getNombre());
                 }
-                i += 1;
             }
-        }else {
+        } else {
             System.out.println("Este personaje no tiene Armas");
         }
+    }
+
+    private void mostrarArmadurasPersonaje() {
         System.out.println("Armaduras del Personaje:");
-        i = 0;
-        if(!p.getListaArmaduras().isEmpty()) {
-            while (i < p.getListaArmaduras().size()) {
-                System.out.println(i + 1 + ". " + p.getListaArmaduras().get(i).getNombre());
-                i += 1;
+        if (!p.getListaArmaduras().isEmpty()) {
+            int i = 1;
+            for (Armadura armadura : p.getListaArmaduras()) {
+                System.out.println(i++ + ". " + armadura.getNombre());
             }
-        }else {
+        } else {
             System.out.println("Este personaje no tiene Armaduras");
         }
+    }
+
+    private void mostrarArmasActivasPersonaje() {
         System.out.println("Armas activas:");
-        i = 0;
-        if(!p.getArmasActivas().isEmpty()) {
-            while (i < p.getArmasActivas().size()) {
-                System.out.println(i + 1 + ".");
-                p.getArmasActivas().get(i).mostrarEquipo();
-                i += 1;
+        if (!p.getArmasActivas().isEmpty()) {
+            int i = 1;
+            for (Arma activa : p.getArmasActivas()) {
+                System.out.println(i++ + ".");
+                activa.mostrarEquipo();
             }
-        }else {
+        } else {
             System.out.println("Este personaje no tiene Armas Activas");
         }
+    }
+
+    private void mostrarEsbirrosPersonaje() {
         System.out.println("Esbirros del Personaje:");
-        i = 0;
-        if(!p.getListaEsbirros().isEmpty()) {
-            while (i < p.getListaEsbirros().size()) {
-                Esbirro esbirro = p.getListaEsbirros().get(i);
+        if (!p.getListaEsbirros().isEmpty()) {
+            for (Esbirro esbirro : p.getListaEsbirros()) {
                 esbirro.mostrarEsbirro();
-                i += 1;
             }
-        }else {
+        } else {
             System.out.println("Este personaje no tiene Esbirros");
         }
     }
+
 
     private void salir(Scanner sc) throws IOException {
         //Este método sale de la sesión
@@ -504,262 +639,6 @@ public class Sistema implements Serializable {
         }
     }
 
-    public void suscribirseOferta(Scanner sc) {
-        String filtro = "";
-        System.out.println("Elige el tipo de oferta al que te quieres suscribir");
-        System.out.println("1 - Por tipo de equipo/esbirros");
-        System.out.println("2 - Por categoría");
-        System.out.println("3 - Por valor");
-        System.out.println("4 - Por lealtad de esbirro");
-        System.out.println("5 - Por tipo de esbirro");
-        System.out.println("6 - Por tipo de usuario que realiza la oferta");
-        System.out.println("7 - Por un precio mínimo-máximo");
-        System.out.println("0 - Salir");
-        int opcion;
-        do {
-            opcion = sc.nextInt();
-        } while (opcion < 0 || opcion > 7);
-        switch (opcion) {
-            case 1:
-                filtro = "Suscripcion por tipo de equipo/esbirros: \n";
-                System.out.println("Elige una opcion para suscribirse");
-                System.out.println("1 - Armas");
-                System.out.println("2 - Armaduras");
-                System.out.println("3 - Esbirros");
-                System.out.println("4 - Armas y Armaduras");
-                System.out.println("5 - Armas y Esbirros");
-                System.out.println("6 - Armaduras y Esbirros");
-                System.out.println("0 - Salir");
-                do {
-                    opcion = sc.nextInt();
-                } while (opcion < 0 || opcion > 6);
-                switch (opcion) {
-                    case 1:
-                        filtro = filtro.concat("-Armas \n");
-                        break;
-                    case 2:
-                        filtro = filtro.concat("-Armaduras \n");
-                        break;
-                    case 3:
-                        filtro = filtro.concat("-Esbirros \n");
-                        break;
-                    case 4:
-                        filtro = filtro.concat("-Armas \n-Armaduras \n");
-                        break;
-                    case 5:
-                        filtro = filtro.concat("-Armas \n-Esbirros \n");
-                        break;
-                    case 6:
-                        filtro = filtro.concat("-Armaduras \n-Esbirros \n");
-                        break;
-                }
-                break;
-            case 2:
-                filtro = "Suscripcion por categoría: \n";
-                System.out.println("Elige una opcion para suscribirse");
-                System.out.println("1 - Comun");
-                System.out.println("2 - Raro");
-                System.out.println("3 - Epico");
-                System.out.println("4 - Legendario");
-                System.out.println("0 - Salir");
-                do {
-                    opcion = sc.nextInt();
-                } while (opcion < 0 || opcion > 4);
-                switch (opcion) {
-                    case 1:
-                        filtro = filtro.concat("-Comun \n");
-                        break;
-                    case 2:
-                        filtro = filtro.concat("-Raro \n");
-                        break;
-                    case 3:
-                        filtro = filtro.concat("-Epico \n");
-                        break;
-                    case 4:
-                        filtro = filtro.concat("-Legendario \n");
-                        break;
-                }
-                break;
-            case 3:
-                filtro = "Suscripcion por valor de equipo: \n";
-                System.out.println("Elige una opcion para suscribirse");
-                System.out.println("1 - Valor de Armas");
-                System.out.println("2 - Valor de Armaduras");
-                System.out.println("0 - Salir");
-                do {
-                    opcion = sc.nextInt();
-                } while (opcion < 0 || opcion > 2);
-                switch (opcion) {
-                    case 1:
-                        System.out.println("Elige una opcion para suscribirse");
-                        System.out.println("1 - Modificador de Ataque del arma de 1");
-                        System.out.println("2 - Modificador de Ataque del arma de 2");
-                        System.out.println("3 - Modificador de Ataque del arma de 3");
-                        System.out.println("4 - Modificador de Defensa del arma de 1");
-                        System.out.println("5 - Modificador de Defensa del arma de 2");
-                        System.out.println("6 - Modificador de Defensa del arma de 3");
-                        System.out.println("0 - Salir");
-                        do {
-                            opcion = sc.nextInt();
-                        } while (opcion < 0 || opcion > 6);
-                        switch (opcion) {
-                            case 1:
-                                filtro = filtro.concat("-Modificador de Ataque del arma de 1");
-                                break;
-                            case 2:
-                                filtro = filtro.concat("-Modificador de Ataque del arma de 2");
-                                break;
-                            case 3:
-                                filtro = filtro.concat("-Modificador de Ataque del arma de 3");
-                                break;
-                            case 4:
-                                filtro = filtro.concat("-Modificador de Defensa del arma de 1");
-                                break;
-                            case 5:
-                                filtro = filtro.concat("-Modificador de Defensa del arma de 2");
-                                break;
-                            case 6:
-                                filtro = filtro.concat("-Modificador de Defensa del arma de 3");
-                                break;
-                        }
-                        break;
-                    case 2:
-                        System.out.println("Elige una opcion para suscribirse");
-                        System.out.println("1 - Modificador de Ataque de la armadura de 1");
-                        System.out.println("2 - Modificador de Ataque de la armadura de 2");
-                        System.out.println("3 - Modificador de Ataque de la armadura de 3");
-                        System.out.println("4 - Modificador de Defensa de la armadura de 1");
-                        System.out.println("5 - Modificador de Defensa de la armadura de 2");
-                        System.out.println("6 - Modificador de Defensa de la armadura de 3");
-                        System.out.println("0 - Salir");
-                        do {
-                            opcion = sc.nextInt();
-                        } while (opcion < 0 || opcion > 6);
-                        switch (opcion) {
-                            case 1:
-                                filtro = filtro.concat("-Modificador de Ataque de la armadura de 1");
-                                break;
-                            case 2:
-                                filtro = filtro.concat("-Modificador de Ataque de la armadura del arma de 2");
-                                break;
-                            case 3:
-                                filtro = filtro.concat("-Modificador de Ataque de la armadura del arma de 3");
-                                break;
-                            case 4:
-                                filtro = filtro.concat("-Modificador de Defensa de la armadura del arma de 1");
-                                break;
-                            case 5:
-                                filtro = filtro.concat("-Modificador de Defensa de la armadura del arma de 2");
-                                break;
-                            case 6:
-                                filtro = filtro.concat("-Modificador de Defensa de la armadura del arma de 3");
-                                break;
-                        }
-                        break;
-                }
-            case 4:
-                filtro = "Suscripcion por lealtad de Esbirro: \n";
-                System.out.println("Elige una opcion para suscribirse");
-                System.out.println("1 - ALTA");
-                System.out.println("2 - MEDIA");
-                System.out.println("3 - BAJA");
-                System.out.println("0 - Salir");
-                do {
-                    opcion = sc.nextInt();
-                } while (opcion < 0 || opcion > 3);
-                switch (opcion) {
-                    case 1:
-                        filtro = filtro.concat("-ALTA");
-                        break;
-                    case 2:
-                        filtro = filtro.concat("-MEDIA");
-                        break;
-                    case 3:
-                        filtro = filtro.concat("-BAJA");
-                        break;
-                }
-                break;
-            case 5:
-                filtro = "Suscripcion por tipo de esbirro: \n";
-                System.out.println("Elige una opcion para suscribirse");
-                System.out.println("1 - Demonio");
-                System.out.println("2 - Ghoul");
-                System.out.println("3 - Cazador");
-                System.out.println("0 - Humano");
-                do {
-                    opcion = sc.nextInt();
-                } while (opcion < 0 || opcion > 3);
-                switch (opcion) {
-                    case 1:
-                        filtro = filtro.concat("-Demonio");
-                        break;
-                    case 2:
-                        filtro = filtro.concat("-Ghoul");
-                        break;
-                    case 3:
-                        filtro = filtro.concat("-Humano");
-                        break;
-                }
-                break;
-            case 6:
-                filtro = "Suscripcion por tipo de usuario: \n";
-                System.out.println("Elige una opcion para suscribirse");
-                System.out.println("1 - Licantropo");
-                System.out.println("2 - Vampiro");
-                System.out.println("3 - Cazador");
-                System.out.println("0 - Salir");
-                do {
-                    opcion = sc.nextInt();
-                } while (opcion < 0 || opcion > 3);
-                switch (opcion) {
-                    case 1:
-                        filtro = filtro.concat("-Licantropo");
-                        break;
-                    case 2:
-                        filtro = filtro.concat("-Vampiro");
-                        break;
-                    case 3:
-                        filtro = filtro.concat("-Cazador");
-                        break;
-                }
-                break;
-            case 7:
-                filtro = "Suscripcion por un precio minimo-maximo: \n";
-                System.out.println("Elige el precio minimo [0-1000]: ");
-                do {
-                    opcion = sc.nextInt();
-                } while (opcion < 0 || opcion > 1000);
-                filtro = filtro.concat("Min: " + opcion + " oro \n");
-                System.out.println("Elige el precio maximo [0-1000]: ");
-                do {
-                    opcion = sc.nextInt();
-                } while (opcion < 0 || opcion > 999);
-                filtro = filtro.concat("Max: " + opcion + " oro");
-                break;
-        }
-                boolean encontrado = false;
-                int i = 0;
-                int indice = -1;
-                for (Notificador notificador : listaNotificadores) {
-                    if (notificador.getFiltro().equals(filtro)) {
-                        encontrado = true;
-                        indice = i;
-                        i++;
-                    }
-                }
-                if (!encontrado) {
-                    Notificador notificador = new Notificador(filtro);
-                    notificador.suscribirse((Observador) usuario);
-                    listaNotificadores.add(notificador);
-                    ((Jugador) usuario).addNotificador(notificador);
-
-                } else {
-                    listaNotificadores.get(indice).suscribirse((Observador) usuario);
-                    ((Jugador) usuario).addNotificador(listaNotificadores.get(indice));
-                }
-    }
-
-
 
     public void desuscribirse(Scanner sc) {
         if (((Jugador) usuario).getListaNotificadores().isEmpty()) {
@@ -820,7 +699,7 @@ public class Sistema implements Serializable {
             String contraseña = sc.next();
 
             if (comprobarSesion(nick, contraseña) && !encontrarBaneado(nick)) {
-                usuario = atribuirUsuario(nick,contraseña, sc);
+                usuario = atribuirUsuario(nick,contraseña);
                 if (usuario != null)
                     menuPrincipal(sc);
                 else{
@@ -837,7 +716,7 @@ public class Sistema implements Serializable {
             }
     }
 
-    private Usuario atribuirUsuario(String nick, String contraseña, Scanner sc) throws IOException {
+    private Usuario atribuirUsuario(String nick, String contraseña) {
         if (whiteList != null) {
             int i = 0;
             boolean registrado = false;
@@ -927,101 +806,153 @@ public class Sistema implements Serializable {
     }
 
     private void eliminarEquipo(Scanner sc) {
-        ArrayList<Equipo> listaEquipo = new ArrayList<>();
-        int i;
-        if (((Jugador) usuario).getPersonaje().getListaArmas().isEmpty() && ((Jugador) usuario).getPersonaje().getListaArmaduras().isEmpty()) {
+        if (equipoEstaVacio()) {
             System.out.println("No tienes equipo para eliminar");
         } else {
-            if (!((Jugador) usuario).getPersonaje().getListaArmaduras().isEmpty()) {
-                System.out.println("Armaduras:");
-                i = 1;
-                for (Armadura armadura : ((Jugador) usuario).getPersonaje().getListaArmaduras()) {
-                    System.out.println("Numero: " + i + ")");
-                    armadura.mostrarEquipo();
-                    System.out.println();
-                    listaEquipo.add(armadura);
-                    i++;
-                }
-            }
-            if (!((Jugador) usuario).getPersonaje().getListaArmas().isEmpty()) {
-                System.out.println("Armas:");
-                i = 1;
-                for (Arma arma : ((Jugador) usuario).getPersonaje().getListaArmas()) {
-                    System.out.println("Numero: " + i + ")");
-                    arma.mostrarEquipo();
-                    System.out.println();
-                    listaEquipo.add(arma);
-                    i++;
-                }
-            }
-            int opcion;
-            do{
-                opcion = sc.nextInt();
-            } while(opcion > listaEquipo.size() || opcion < 1);
-            Equipo e = listaEquipo.get(opcion-1);
-            if (e instanceof Arma) {
-                ((Jugador) usuario).getPersonaje().removeListaArmas((Arma) e);
-                if (((Jugador) usuario).getPersonaje().getArmasActivas().contains((e))) {
-                    ((Jugador) usuario).getPersonaje().removeArmasActivas((Arma) e);
-                }
-            } else {
-                ((Jugador) usuario).getPersonaje().removeListaArmaduras((Armadura) e);
-            }
+            ArrayList<Equipo> listaEquipo = mostrarEquiposDisponibles();
+            eliminarEquipoSeleccionado(sc, listaEquipo);
+        }
+    }
 
+    private boolean equipoEstaVacio() {
+        return ((Jugador) usuario).getPersonaje().getListaArmas().isEmpty() &&
+                ((Jugador) usuario).getPersonaje().getListaArmaduras().isEmpty();
+    }
+
+    private ArrayList<Equipo> mostrarEquiposDisponibles() {
+        ArrayList<Equipo> listaEquipo = new ArrayList<>();
+        mostrarArmaduras(listaEquipo);
+        mostrarArmas(listaEquipo);
+        return listaEquipo;
+    }
+
+    private void mostrarArmaduras(ArrayList<Equipo> listaEquipo) {
+        if (!((Jugador) usuario).getPersonaje().getListaArmaduras().isEmpty()) {
+            System.out.println("Armaduras:");
+            int i = 1;
+            for (Armadura armadura : ((Jugador) usuario).getPersonaje().getListaArmaduras()) {
+                System.out.println("Numero: " + i + ")");
+                armadura.mostrarEquipo();
+                System.out.println();
+                listaEquipo.add(armadura);
+                i++;
+            }
+        }
+    }
+
+    private void mostrarArmas(ArrayList<Equipo> listaEquipo) {
+        if (!((Jugador) usuario).getPersonaje().getListaArmas().isEmpty()) {
+            System.out.println("Armas:");
+            int i = 1;
+            for (Arma arma : ((Jugador) usuario).getPersonaje().getListaArmas()) {
+                System.out.println("Numero: " + i + ")");
+                arma.mostrarEquipo();
+                System.out.println();
+                listaEquipo.add(arma);
+                i++;
+            }
+        }
+    }
+
+    private void eliminarEquipoSeleccionado(Scanner sc, ArrayList<Equipo> listaEquipo) {
+        int opcion;
+        do {
+            opcion = sc.nextInt();
+        } while (opcion > listaEquipo.size() || opcion < 1);
+
+        Equipo equipo = listaEquipo.get(opcion - 1);
+        eliminarEquipoDeJugador(equipo);
+    }
+
+    private void eliminarEquipoDeJugador(Equipo equipo) {
+        if (equipo instanceof Arma) {
+            ((Jugador) usuario).getPersonaje().removeListaArmas((Arma) equipo);
+            if (((Jugador) usuario).getPersonaje().getArmasActivas().contains(equipo)) {
+                ((Jugador) usuario).getPersonaje().removeArmasActivas((Arma) equipo);
+            }
+        } else {
+            ((Jugador) usuario).getPersonaje().removeListaArmaduras((Armadura) equipo);
         }
     }
 
     private void elegirArmasActivas(Scanner sc) {
-        if(!(((Jugador) usuario).getPersonaje().getListaArmas().isEmpty())) {
-            ((Jugador) usuario).getPersonaje().getArmasActivas().clear();
-            System.out.println("Elija una o dos armas activas o pulse 0 para salir");
-            System.out.println();
-            int i = 0;
-            int opcion;
-            do {
-                int j = 1;
-                for(Arma arma:((Jugador) usuario).getPersonaje().getListaArmas()){
-                    if(!p.getArmasActivas().contains(arma)) {
-                        System.out.println("Arma " + (j) + ":");
-                        System.out.println();
-                        arma.mostrarEquipo();
-                    }
-                    j+=1;
-                }
-                System.out.println();
-                opcion = sc.nextInt();
-                if(opcion <=0 || opcion > ((Jugador) usuario).getPersonaje().getListaArmas().size()){
-                    if(opcion == 0){
-                        System.out.println("Saliendo del menu elegir armas activas...");
-                    }else {
-                        System.out.println("Ese numero no es valido, porfavor escoja un numero valido para poder elegir el arma");
-                        System.out.println();
-                        opcion = 1;
-                    }
-                } else{
-                    if(p.getListaArmas().size() == 1) {
-                        ((Jugador) usuario).getPersonaje().addArmasActivas(((Jugador) usuario).getPersonaje().getListaArmas().get(opcion - 1));
-                        System.out.println("No tienes mas armas para poder ponerlas como armas activas");
+        Jugador jugador = (Jugador) usuario;
+        List<Arma> listaArmas = jugador.getPersonaje().getListaArmas();
+        List<Arma> armasActivas = jugador.getPersonaje().getArmasActivas();
 
-                        opcion = 0;
-                    }else{
-                        ((Jugador) usuario).getPersonaje().addArmasActivas((((Jugador) usuario).getPersonaje().getListaArmas().get(opcion - 1)));
-                        i +=1;
-                        System.out.println("Si quieres salir pulsa 0, sino, pulse 1");
-                        opcion = sc.nextInt();
-                    }
-                }
-            } while(i<2 && opcion != 0);
-            if(i >= 2){
-                System.out.println("Lo sentimos, no puede añadir mas de 2 armas activas");
-            }
-        }else{
-            System.out.println("Este personaje no tiene armas, añada armas al personaje para poder añadirlas a las armas activas");
-        }
+        if (verificarArmasDisponibles(listaArmas)) return;
 
+        armasActivas.clear();
+        System.out.println("Elija una o dos armas activas o pulse 0 para salir\n");
+
+        seleccionarArmas(sc, listaArmas, armasActivas);
     }
 
-    public ArrayList<Oferta> getListaOfertasNoValidadas() {
+    private boolean verificarArmasDisponibles(List<Arma> listaArmas) {
+        if (listaArmas.isEmpty()) {
+            System.out.println("Este personaje no tiene armas, añada armas al personaje para poder añadirlas a las armas activas");
+            return true;
+        }
+        return false;
+    }
+
+    private void seleccionarArmas(Scanner sc, List<Arma> listaArmas, List<Arma> armasActivas) {
+        int numeroArmasSeleccionadas = 0;
+
+        while (numeroArmasSeleccionadas < 2) {
+            mostrarOpcionesArma(listaArmas, armasActivas);
+            int opcion = obtenerOpcionValida(sc, listaArmas.size());
+
+            if (opcion == 0) break;
+
+            Arma armaSeleccionada = listaArmas.get(opcion - 1);
+            if (agregarArmaSeleccionada(armasActivas, armaSeleccionada)) {
+                numeroArmasSeleccionadas++;
+            }
+        }
+
+        mostrarMensajeLimiteArmas(numeroArmasSeleccionadas);
+    }
+
+    private void mostrarOpcionesArma(List<Arma> listaArmas, List<Arma> armasActivas) {
+        int numeroOpcion = 1;
+        for (Arma arma : listaArmas) {
+            if (!armasActivas.contains(arma)) {
+                System.out.println("Arma " + numeroOpcion + ":\n");
+                arma.mostrarEquipo();
+                numeroOpcion++;
+            }
+        }
+        System.out.println();
+    }
+
+    private int obtenerOpcionValida(Scanner sc, int maxOpcion) {
+        int opcion = sc.nextInt();
+        while (opcion < 0 || opcion > maxOpcion) {
+            System.out.println("Ese número no es válido, por favor escoja un número válido para poder elegir el arma\n");
+            opcion = sc.nextInt();
+        }
+        return opcion;
+    }
+
+    private boolean agregarArmaSeleccionada(List<Arma> armasActivas, Arma armaSeleccionada) {
+        if (!armasActivas.contains(armaSeleccionada)) {
+            armasActivas.add(armaSeleccionada);
+            System.out.println("Si quieres salir pulsa 0, sino, pulse 1");
+            return true;
+        } else {
+            System.out.println("El arma ya está seleccionada, elige otra.");
+            return false;
+        }
+    }
+
+    private void mostrarMensajeLimiteArmas(int numeroArmasSeleccionadas) {
+        if (numeroArmasSeleccionadas >= 2) {
+            System.out.println("Lo sentimos, no puede añadir más de 2 armas activas");
+        }
+    }
+
+    public List<Oferta> getListaOfertasNoValidadas() {
         return listaOfertasNoValidadas;
     }
 
@@ -1052,7 +983,7 @@ public class Sistema implements Serializable {
         Arma escudoGrande = new Arma(1, 3, 1, "Escudo Grande", "Raro", materiales1);
         Arma hologramaFormacionTortuga = new Arma(1, 1, 1, "Holograma Formación Tortuga, (solamente intimida.)", "Epico", materiales5);
 
-        conjuntoArmas = new ArrayList<>(Arrays.asList(espadaPequeña, espadon, guadanya, palo, cuchillo, guantesMagicos, varitaMagica, varitaNoTanMagica, ocarina, bumeran, bfs, bajoAutoestima, escudoPequeño, escudoGrande, hologramaFormacionTortuga));
+        conjuntoArmas = Arrays.asList(espadaPequeña, espadon, guadanya, palo, cuchillo, guantesMagicos, varitaMagica, varitaNoTanMagica, ocarina, bumeran, bfs, bajoAutoestima, escudoPequeño, escudoGrande, hologramaFormacionTortuga);
 
     }
 
@@ -1067,11 +998,11 @@ public class Sistema implements Serializable {
         Armadura armaduraTortuga = new Armadura(1, 3, "Armadura Tortuga", "Epico", materiales4);
         Armadura armaduraDentada = new Armadura(2, 2, "Armadura Dentada", "Legendaria", materiales3);
 
-        conjuntoArmaduras = new ArrayList<Armadura>(Arrays.asList(camisetaPrimark, armaduraBasica, armaduraTortuga, armaduraDentada));
+        conjuntoArmaduras = Arrays.asList(camisetaPrimark, armaduraBasica, armaduraTortuga, armaduraDentada);
 
     }
 
-    public void serializarSistema() throws FileNotFoundException, IOException {
+    public void serializarSistema() throws IOException {
         String rutaArchivo = "./informacion.bin";
         File f1 = new File(rutaArchivo);
         ObjectOutputStream datosSalida = new ObjectOutputStream(new FileOutputStream(f1));
@@ -1086,12 +1017,8 @@ public class Sistema implements Serializable {
         this.usuario = usuario;
     }
 
-    public ArrayList<Usuario> getWhiteList() {
+    public List<Usuario> getWhiteList() {
         return whiteList;
-    }
-
-    public void setlistaUsuarios(ArrayList<Usuario> listaUsuarios) {
-        this.whiteList = listaUsuarios;
     }
 
     private Boolean comprobarSesion(String nick, String contraseña) {
@@ -1171,7 +1098,7 @@ public class Sistema implements Serializable {
         }
     }
 
-    public ArrayList<Usuario> getBlackList() {
+    public List<Usuario> getBlackList() {
         return blackList;
     }
 
@@ -1338,62 +1265,67 @@ public class Sistema implements Serializable {
     public void validarOferta(Scanner sc) {
         if (listaOfertasNoValidadas.isEmpty()) {
             System.out.println("No hay ofertas para validar.");
-        } else {
-            int opcion;
-            do {
-                System.out.println("1) Validar ofertas");
-                System.out.println("2) Salir");
-                do {
-                    opcion = sc.nextInt();
-                    sc.nextLine();
-                } while (opcion < 1 || opcion > 2);
-                if (opcion != 2) {
-                    int i = 0;
-                    System.out.println("Elija una oferta para validar: ");
-                    for (Oferta oferta : listaOfertasNoValidadas) {
-                        System.out.println(i + ") ");
-                        oferta.mostrarOferta();
-                        i++;
-                    }
-                    i--;
-                    int opcion2;
-                    do {
-                        opcion2 = sc.nextInt();
-                        sc.nextLine();
-                    } while (opcion2 < 0 || opcion2 > i);
-                    System.out.println("¿Desea validar la oferta?");
-                    System.out.println("0) Si");
-                    System.out.println("1) No");
-                    int opcion3;
-                    do{
-                        opcion3 = sc.nextInt();
-                    } while(opcion3 != 0 && opcion3 != 1);
-                    if (opcion3 == 0){
-                        Oferta oferta = listaOfertasNoValidadas.remove(opcion2);
-                        listaOfertas.add(oferta);
-                        notificarOferta(oferta);
-                        System.out.println("La oferta ha sido validada");
-                    } else{
-                        Oferta oferta = listaOfertasNoValidadas.remove(opcion2);
-                        for (Equipo equipo: oferta.getListaEquipo()) {
-                            if (equipo instanceof Arma){
-                                ((Jugador) oferta.getUsuarioVendedor()).getPersonaje().getListaArmas().add((Arma) equipo);
-                            } else{
-                                ((Jugador) oferta.getUsuarioVendedor()).getPersonaje().getListaArmaduras().add((Armadura) equipo);
-                            }
-                        }
-                        for (Esbirro esbirro: oferta.getListaEsbirros()) {
-                            ((Jugador) oferta.getUsuarioVendedor()).getPersonaje().getListaEsbirros().add(esbirro);
-                        }
-                        System.out.println("Los articulos fueron devueltos al inventario del usuario vendedor");
-                    }
-                }
-            } while (opcion != 2 && !listaOfertasNoValidadas.isEmpty());
-            if (listaOfertasNoValidadas.isEmpty()) {
-                System.out.println("No hay mas ofertas para validar.");
+            return;
+        }
+
+        int opcion;
+        do {
+            mostrarMenuPrincipalOferta();
+            opcion = obtenerOpcionValida(sc, 1, 2);
+
+            if (opcion == 1) {
+                procesarValidacionOferta(sc);
             }
+        } while (opcion != 2 && !listaOfertasNoValidadas.isEmpty());
+
+        if (listaOfertasNoValidadas.isEmpty()) {
+            System.out.println("No hay mas ofertas para validar.");
         }
     }
+
+    private void mostrarMenuPrincipalOferta() {
+        System.out.println("1) Validar ofertas");
+        System.out.println("2) Salir");
+    }
+    private void procesarValidacionOferta(Scanner sc) {
+        mostrarOfertas();
+        int indiceOferta = obtenerOpcionValida(sc, 0, listaOfertasNoValidadas.size() - 1);
+
+        System.out.println("¿Desea validar la oferta?");
+        System.out.println("0) Si");
+        System.out.println("1) No");
+
+        int confirmacion = obtenerOpcionValida(sc, 0, 1);
+
+        if (confirmacion == 0) {
+            validarOferta(indiceOferta);
+        } else {
+            devolverItemsVendedor(indiceOferta);
+        }
+    }
+
+    private void validarOferta(int indiceOferta) {
+        Oferta oferta = listaOfertasNoValidadas.remove(indiceOferta);
+        listaOfertas.add(oferta);
+        notificarOferta(oferta);
+        System.out.println("La oferta ha sido validada");
+    }
+
+    private void devolverItemsVendedor(int indiceOferta) {
+        Oferta oferta = listaOfertasNoValidadas.remove(indiceOferta);
+        for (Equipo equipo : oferta.getListaEquipo()) {
+            if (equipo instanceof Arma) {
+                ((Jugador) oferta.getUsuarioVendedor()).getPersonaje().getListaArmas().add((Arma) equipo);
+            } else {
+                ((Jugador) oferta.getUsuarioVendedor()).getPersonaje().getListaArmaduras().add((Armadura) equipo);
+            }
+        }
+        for (Esbirro esbirro : oferta.getListaEsbirros()) {
+            ((Jugador) oferta.getUsuarioVendedor()).getPersonaje().getListaEsbirros().add(esbirro);
+        }
+        System.out.println("Los articulos fueron devueltos al inventario del usuario vendedor");
+    }
+
 
     private Boolean encontrarNick(String nick) {
         if (whiteList != null && blackList != null) {
@@ -1474,7 +1406,7 @@ public class Sistema implements Serializable {
         return numero;
     }
 
-    public ArrayList<Oferta> getListaOfertas() {
+    public List<Oferta> getListaOfertas() {
         return listaOfertas;
     }
 
@@ -1483,53 +1415,10 @@ public class Sistema implements Serializable {
 
         for (Notificador notificador : listaNotificadores) {
             String filtro = notificador.getFiltro();
-            if(filtro.startsWith("Min: ")) {
-                String[] parts = filtro.split("\n");
-                parts[0] = parts[0].replace("Min: ", "");
-                parts[1] = parts[1].replace("Max: ", "");
-                parts[0] = parts[0].replace(" oro \n", "");
-                parts[1] = parts[1].replace(" oro", "");
-                int min = Integer.parseInt(parts[0]);
-                int max = Integer.parseInt(parts[1]);
-            }
-            boolean notificar = false;
-            int max = -1,min = -1;
-            if (!oferta.getListaEquipo().isEmpty()) {
-                boolean hayArma = false, hayArmadura = false;
-                for (Equipo equipo : oferta.getListaEquipo()) {
-                    if (filtro.contains(equipo.getCategoria())) {
-                        notificar = true;
-                    }
-                    if (equipo instanceof Arma) {
-                        hayArma = true;
-                    } else {
-                        hayArmadura = true;
-                    }
-                }
-                if (filtro.contains("Armas") && hayArma) {
-                    notificar = true;
-                } else if (filtro.contains("Armaduras") && hayArmadura) {
-                    notificar = true;
-                }
-            } else if (!oferta.getListaEsbirros().isEmpty()) {
-                if (filtro.contains("Esbirros")) {
-                    notificar = true;
-                }
-                for (Esbirro esbirro : oferta.getListaEsbirros()) {
-                    if (esbirro instanceof Humano) {
-                        if (filtro.contains(((Humano) esbirro).getLealtad())) {
-                            notificar = true;
-                        }
-                    } else if (filtro.contains(esbirro.getClass().getName())) {
-                        notificar = true;
-                    }
-                }
+            RangoPrecio rangoPrecio = extraerRangoPrecio(filtro);
 
-            } else if (oferta.getPrecio() <= max && oferta.getPrecio() >= min) {
-                notificar = true;
-            } else if (filtro.contains(jugador.getPersonaje().getClass().getName())) {
-                notificar = true;
-            }
+            boolean notificar = deberiaNotificar(oferta, filtro, jugador, rangoPrecio);
+
             if (notificar) {
                 notificador.añadirOferta(oferta);
                 notificador.notificar();
@@ -1537,21 +1426,77 @@ public class Sistema implements Serializable {
         }
     }
 
-    //MÉTODOS PARA TESTING
-
-    public ArrayList<Notificador> getListaNotificadores() {
-        return listaNotificadores;
+    private RangoPrecio extraerRangoPrecio(String filtro) {
+        if (filtro.startsWith("Min: ")) {
+            String[] parts = filtro.split("\n");
+            int min = Integer.parseInt(parts[0].replace("Min: ", "").replace(" oro \n", ""));
+            int max = Integer.parseInt(parts[1].replace("Max: ", "").replace(" oro", ""));
+            return new RangoPrecio(min, max);
+        }
+        return new RangoPrecio(-1, -1); // Rango no especificado
     }
 
-    public ArrayList<VentaLog> getListaLogs() {
+    private boolean deberiaNotificar(Oferta oferta, String filtro, Jugador jugador, RangoPrecio rangoPrecio) {
+        if (!oferta.getListaEquipo().isEmpty()) {
+            return verificarNotificacionPorEquipo(oferta, filtro);
+        } else if (!oferta.getListaEsbirros().isEmpty()) {
+            return verificarNotificacionPorEsbirros(oferta, filtro);
+        } else if (oferta.getPrecio() <= rangoPrecio.max && oferta.getPrecio() >= rangoPrecio.min) {
+            return true;
+        } else if (filtro.contains(jugador.getPersonaje().getClass().getName())) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean verificarNotificacionPorEquipo(Oferta oferta, String filtro) {
+        boolean hayArma = false, hayArmadura = false;
+        for (Equipo equipo : oferta.getListaEquipo()) {
+            if (filtro.contains(equipo.getCategoria())) {
+                return true;
+            }
+            if (equipo instanceof Arma) {
+                hayArma = true;
+            } else {
+                hayArmadura = true;
+            }
+        }
+        return (filtro.contains("Armas") && hayArma) || (filtro.contains("Armaduras") && hayArmadura);
+    }
+
+    private boolean verificarNotificacionPorEsbirros(Oferta oferta, String filtro) {
+        if (filtro.contains("Esbirros")) {
+            return true;
+        }
+        for (Esbirro esbirro : oferta.getListaEsbirros()) {
+            if (esbirro instanceof Humano && filtro.contains(((Humano) esbirro).getLealtad())) {
+                return true;
+            } else if (filtro.contains(esbirro.getClass().getName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private class RangoPrecio {
+        int min;
+        int max;
+
+        RangoPrecio(int min, int max) {
+            this.min = min;
+            this.max = max;
+        }
+    }
+
+    public List<VentaLog> getListaLogs() {
         return listaLogs;
     }
 
-    public ArrayList<Arma> getConjuntoArmas() {
+    public List<Arma> getConjuntoArmas() {
         return conjuntoArmas;
     }
 
-    public ArrayList<Armadura> getConjuntoArmaduras() {
+    public List<Armadura> getConjuntoArmaduras() {
         return conjuntoArmaduras;
     }
 }
