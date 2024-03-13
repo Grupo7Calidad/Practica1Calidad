@@ -1,3 +1,8 @@
+package Observers;
+
+import Usuario.Jugador;
+import Ventas.Oferta;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 

@@ -1,5 +1,10 @@
+package Usuario;
+
+import Observers.Notificador;
+import Observers.Observador;
+import Personajes.Personaje;
+
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Jugador extends Usuario implements Observador, Serializable {

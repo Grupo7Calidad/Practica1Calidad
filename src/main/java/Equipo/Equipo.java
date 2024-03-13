@@ -1,3 +1,5 @@
+package Equipo;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 

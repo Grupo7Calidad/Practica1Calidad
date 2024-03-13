@@ -63,7 +63,7 @@
 											"top": 551,
 											"width": 170.16796875,
 											"height": 13,
-											"text": "Vampiro"
+											"text": "Personajes.Vampiro"
 										},
 										{
 											"_type": "LabelView",
@@ -204,7 +204,7 @@
 											"top": 614,
 											"width": 170.16796875,
 											"height": 13,
-											"text": "+añadirEsbirro(Esbirro)",
+											"text": "+añadirEsbirro(Personajes.Esbirro)",
 											"horizontalAlignment": 0
 										},
 										{
@@ -222,7 +222,7 @@
 											"top": 637,
 											"width": 170.16796875,
 											"height": 13,
-											"text": "+eliminarEsbirro(Esbirro)",
+											"text": "+eliminarEsbirro(Personajes.Esbirro)",
 											"horizontalAlignment": 0
 										}
 									],
@@ -454,7 +454,7 @@
 											"top": 599,
 											"width": 170.16796875,
 											"height": 13,
-											"text": "+añadirEsbirro(Esbirro)",
+											"text": "+añadirEsbirro(Personajes.Esbirro)",
 											"horizontalAlignment": 0
 										},
 										{
@@ -472,7 +472,7 @@
 											"top": 614,
 											"width": 170.16796875,
 											"height": 13,
-											"text": "+eliminarEsbirro(Esbirro)",
+											"text": "+eliminarEsbirro(Personajes.Esbirro)",
 											"horizontalAlignment": 0
 										}
 									],
@@ -580,7 +580,7 @@
 											"top": 375,
 											"width": 101.486328125,
 											"height": 13,
-											"text": "Esbirro"
+											"text": "Personajes.Esbirro"
 										},
 										{
 											"_type": "LabelView",
@@ -811,7 +811,7 @@
 											"top": 519,
 											"width": 100.7880859375,
 											"height": 13,
-											"text": "Humano"
+											"text": "Personajes.Humano"
 										},
 										{
 											"_type": "LabelView",
@@ -1025,7 +1025,7 @@
 											"top": 519,
 											"width": 100.7880859375,
 											"height": 13,
-											"text": "Ghoul"
+											"text": "Personajes.Ghoul"
 										},
 										{
 											"_type": "LabelView",
@@ -1239,7 +1239,7 @@
 											"top": 375,
 											"width": 197.6279296875,
 											"height": 13,
-											"text": "Demonio"
+											"text": "Personajes.Demonio"
 										},
 										{
 											"_type": "LabelView",
@@ -1311,7 +1311,7 @@
 											"top": 398,
 											"width": 197.6279296875,
 											"height": 13,
-											"text": "-conjuntoEsbirros: Set <Esbirro>",
+											"text": "-conjuntoEsbirros: Set <Personajes.Esbirro>",
 											"horizontalAlignment": 0
 										},
 										{
@@ -1752,7 +1752,7 @@
 											"top": 743,
 											"width": 131.17431640625,
 											"height": 13,
-											"text": "Usuario"
+											"text": "Usuario.Usuario"
 										},
 										{
 											"_type": "LabelView",
@@ -1999,7 +1999,7 @@
 											"top": 1087,
 											"width": 156.4443359375,
 											"height": 13,
-											"text": "Operador"
+											"text": "Usuario.Operador"
 										},
 										{
 											"_type": "LabelView",
@@ -2343,7 +2343,7 @@
 											"top": 1111,
 											"width": 337.07958984375,
 											"height": 13,
-											"text": "Oferta"
+											"text": "Ventas.Oferta"
 										},
 										{
 											"_type": "LabelView",
@@ -2415,7 +2415,7 @@
 											"top": 1134,
 											"width": 337.07958984375,
 											"height": 13,
-											"text": "-listaEquipo: ArrayList<Equipo>",
+											"text": "-listaEquipo: ArrayList<Equipo.Equipo>",
 											"horizontalAlignment": 0
 										},
 										{
@@ -2432,7 +2432,7 @@
 											"top": 1149,
 											"width": 337.07958984375,
 											"height": 13,
-											"text": "-listaEsbirros: ArrayList<Esbirro>",
+											"text": "-listaEsbirros: ArrayList<Personajes.Esbirro>",
 											"horizontalAlignment": 0
 										},
 										{
@@ -2466,7 +2466,7 @@
 											"top": 1179,
 											"width": 337.07958984375,
 											"height": 13,
-											"text": "-usuarioVendedor: Usuario",
+											"text": "-usuarioVendedor: Usuario.Usuario",
 											"horizontalAlignment": 0
 										}
 									],
@@ -2518,7 +2518,7 @@
 											"top": 1204,
 											"width": 337.07958984375,
 											"height": 13,
-											"text": "+generarVentaLog(String): VentaLog",
+											"text": "+generarVentaLog(String): Ventas.VentaLog",
 											"horizontalAlignment": 0
 										},
 										{
@@ -2643,7 +2643,7 @@
 											"top": 175,
 											"width": 279.9951171875,
 											"height": 13,
-											"text": "Personaje"
+											"text": "Personajes.Personaje"
 										},
 										{
 											"_type": "LabelView",
@@ -2748,7 +2748,7 @@
 											"top": 213,
 											"width": 279.9951171875,
 											"height": 13,
-											"text": "-listaArmas: ArrayList<Arma>",
+											"text": "-listaArmas: ArrayList<Equipo.Arma>",
 											"horizontalAlignment": 0
 										},
 										{
@@ -2765,7 +2765,7 @@
 											"top": 228,
 											"width": 279.9951171875,
 											"height": 13,
-											"text": "-armasActivas: Set<Arma>",
+											"text": "-armasActivas: Set<Equipo.Arma>",
 											"horizontalAlignment": 0
 										},
 										{
@@ -2782,7 +2782,7 @@
 											"top": 243,
 											"width": 279.9951171875,
 											"height": 13,
-											"text": "-listaArmaduras: ArrayList<Armadura>",
+											"text": "-listaArmaduras: ArrayList<Equipo.Armadura>",
 											"horizontalAlignment": 0
 										},
 										{
@@ -2800,7 +2800,7 @@
 											"top": 273,
 											"width": 279.9951171875,
 											"height": 13,
-											"text": "-armaduraActiva: Set<Armadura>",
+											"text": "-armaduraActiva: Set<Equipo.Armadura>",
 											"horizontalAlignment": 0
 										},
 										{
@@ -2817,7 +2817,7 @@
 											"top": 258,
 											"width": 279.9951171875,
 											"height": 13,
-											"text": "-listaEsbirros: ArrayList<Esbirro>",
+											"text": "-listaEsbirros: ArrayList<Personajes.Esbirro>",
 											"horizontalAlignment": 0
 										},
 										{
@@ -3030,7 +3030,7 @@
 											"top": 298,
 											"width": 279.9951171875,
 											"height": 13,
-											"text": "+añadirEsbirro(Esbirro)",
+											"text": "+añadirEsbirro(Personajes.Esbirro)",
 											"horizontalAlignment": 0
 										},
 										{
@@ -3048,7 +3048,7 @@
 											"top": 313,
 											"width": 279.9951171875,
 											"height": 13,
-											"text": "+eliminarEsbirro(Esbirro)",
+											"text": "+eliminarEsbirro(Personajes.Esbirro)",
 											"horizontalAlignment": 0
 										},
 										{
@@ -3360,7 +3360,7 @@
 											"top": 319,
 											"width": 195.06982421875,
 											"height": 13,
-											"text": "Equipo"
+											"text": "Equipo.Equipo"
 										},
 										{
 											"_type": "LabelView",
@@ -3642,7 +3642,7 @@
 											"top": 471,
 											"width": 100.7880859375,
 											"height": 13,
-											"text": "Arma"
+											"text": "Equipo.Arma"
 										},
 										{
 											"_type": "LabelView",
@@ -3856,7 +3856,7 @@
 											"top": 479,
 											"width": 100.7880859375,
 											"height": 13,
-											"text": "Armadura"
+											"text": "Equipo.Armadura"
 										},
 										{
 											"_type": "LabelView",
@@ -4781,7 +4781,7 @@
 											"top": 751,
 											"width": 273.83154296875,
 											"height": 13,
-											"text": "Sistema"
+											"text": "Sistema.Sistema"
 										},
 										{
 											"_type": "LabelView",
@@ -4854,7 +4854,7 @@
 											"top": 694,
 											"width": 273.83154296875,
 											"height": 13,
-											"text": "-notificacion: Notificador",
+											"text": "-notificacion: Observers.Notificador",
 											"horizontalAlignment": 0
 										},
 										{
@@ -4871,7 +4871,7 @@
 											"top": 776,
 											"width": 273.83154296875,
 											"height": 13,
-											"text": "-usuario: Usuario",
+											"text": "-usuario: Usuario.Usuario",
 											"horizontalAlignment": 0
 										},
 										{
@@ -4888,7 +4888,7 @@
 											"top": 791,
 											"width": 273.83154296875,
 											"height": 13,
-											"text": "-whiteList: ArrayList<Usuario>",
+											"text": "-whiteList: ArrayList<Usuario.Usuario>",
 											"horizontalAlignment": 0
 										},
 										{
@@ -4905,7 +4905,7 @@
 											"top": 806,
 											"width": 273.83154296875,
 											"height": 13,
-											"text": "-blackList: ArrayList<Usuario>",
+											"text": "-blackList: ArrayList<Usuario.Usuario>",
 											"horizontalAlignment": 0
 										},
 										{
@@ -4922,7 +4922,7 @@
 											"top": 821,
 											"width": 273.83154296875,
 											"height": 13,
-											"text": "-listaOfertas: ArrayList<Oferta>",
+											"text": "-listaOfertas: ArrayList<Ventas.Oferta>",
 											"horizontalAlignment": 0
 										},
 										{
@@ -4939,7 +4939,7 @@
 											"top": 836,
 											"width": 273.83154296875,
 											"height": 13,
-											"text": "-listaNotificador: ArrayList<Notificador>",
+											"text": "-listaNotificador: ArrayList<Observers.Notificador>",
 											"horizontalAlignment": 0
 										},
 										{
@@ -4956,7 +4956,7 @@
 											"top": 851,
 											"width": 273.83154296875,
 											"height": 13,
-											"text": "-listaLogs: ArrayList<VentaLog>",
+											"text": "-listaLogs: ArrayList<Ventas.VentaLog>",
 											"horizontalAlignment": 0
 										},
 										{
@@ -4973,7 +4973,7 @@
 											"top": 866,
 											"width": 273.83154296875,
 											"height": 13,
-											"text": "-conjuntoArmas: Set<Arma>",
+											"text": "-conjuntoArmas: Set<Equipo.Arma>",
 											"horizontalAlignment": 0
 										},
 										{
@@ -4990,7 +4990,7 @@
 											"top": 881,
 											"width": 273.83154296875,
 											"height": 13,
-											"text": "-conjuntoArmaduras: Set<Armadura>",
+											"text": "-conjuntoArmaduras: Set<Equipo.Armadura>",
 											"horizontalAlignment": 0
 										},
 										{
@@ -5007,7 +5007,7 @@
 											"top": 896,
 											"width": 273.83154296875,
 											"height": 13,
-											"text": "-listaOfertasNoValidadas: ArrayList<Oferta>",
+											"text": "-listaOfertasNoValidadas: ArrayList<Ventas.Oferta>",
 											"horizontalAlignment": 0
 										}
 									],
@@ -5126,7 +5126,7 @@
 											"top": 994,
 											"width": 273.83154296875,
 											"height": 13,
-											"text": "-crearPersonajeBase(): Personaje",
+											"text": "-crearPersonajeBase(): Personajes.Personaje",
 											"horizontalAlignment": 0
 										},
 										{
@@ -5143,7 +5143,7 @@
 											"top": 1009,
 											"width": 273.83154296875,
 											"height": 13,
-											"text": "-registrarPersonaje(): Personaje",
+											"text": "-registrarPersonaje(): Personajes.Personaje",
 											"horizontalAlignment": 0
 										},
 										{
@@ -5250,7 +5250,7 @@
 											"top": 859,
 											"width": 262.63427734375,
 											"height": 13,
-											"text": "+consultarOroPartidasAnteriores(Personaje)",
+											"text": "+consultarOroPartidasAnteriores(Personajes.Personaje)",
 											"horizontalAlignment": 0
 										},
 										{
@@ -5303,7 +5303,7 @@
 											"top": 844,
 											"width": 273.83154296875,
 											"height": 13,
-											"text": "-inicializarArmas(): HashSet<Arma>??",
+											"text": "-inicializarArmas(): HashSet<Equipo.Arma>??",
 											"horizontalAlignment": 0
 										},
 										{
@@ -5320,7 +5320,7 @@
 											"top": 1054,
 											"width": 273.83154296875,
 											"height": 13,
-											"text": "-atribuirUsuario(): Usuario",
+											"text": "-atribuirUsuario(): Usuario.Usuario",
 											"horizontalAlignment": 0
 										},
 										{
@@ -5372,7 +5372,7 @@
 											"top": 844,
 											"width": 273.83154296875,
 											"height": 13,
-											"text": "-inicializarArmaduras(): HashSet<Armadura>??",
+											"text": "-inicializarArmaduras(): HashSet<Equipo.Armadura>??",
 											"horizontalAlignment": 0
 										},
 										{
@@ -7114,7 +7114,7 @@
 											"top": 559,
 											"width": 170.16796875,
 											"height": 13,
-											"text": "Cazador"
+											"text": "Personajes.Cazador"
 										},
 										{
 											"_type": "LabelView",
@@ -7238,7 +7238,7 @@
 											"top": 607,
 											"width": 170.16796875,
 											"height": 13,
-											"text": "+añadirEsbrirro(Esbirro)",
+											"text": "+añadirEsbrirro(Personajes.Esbirro)",
 											"horizontalAlignment": 0
 										},
 										{
@@ -7256,7 +7256,7 @@
 											"top": 622,
 											"width": 170.16796875,
 											"height": 13,
-											"text": "+eliminarEsbirro(Esbirro)",
+											"text": "+eliminarEsbirro(Personajes.Esbirro)",
 											"horizontalAlignment": 0
 										}
 									],
@@ -7458,7 +7458,7 @@
 											"top": 1071,
 											"width": 242.76611328125,
 											"height": 13,
-											"text": "Jugador"
+											"text": "Usuario.Jugador"
 										},
 										{
 											"_type": "LabelView",
@@ -7602,7 +7602,7 @@
 											"top": 1096,
 											"width": 242.76611328125,
 											"height": 13,
-											"text": "-personaje: Personaje",
+											"text": "-personaje: Personajes.Personaje",
 											"horizontalAlignment": 0
 										},
 										{
@@ -7924,7 +7924,7 @@
 											"top": 127,
 											"width": 170.16796875,
 											"height": 13,
-											"text": "Creator"
+											"text": "Personajes.Creator"
 										},
 										{
 											"_type": "LabelView",
@@ -8011,7 +8011,7 @@
 											"top": 160,
 											"width": 170.16796875,
 											"height": 13,
-											"text": "+crearPersonaje(): Personaje",
+											"text": "+crearPersonaje(): Personajes.Personaje",
 											"horizontalAlignment": 0
 										}
 									],
@@ -8294,7 +8294,7 @@
 											"top": 48,
 											"width": 193.755859375,
 											"height": 13,
-											"text": "+crearPersonaje(int, int): Vampiro",
+											"text": "+crearPersonaje(int, int): Personajes.Vampiro",
 											"horizontalAlignment": 0
 										}
 									],
@@ -8587,7 +8587,7 @@
 											"top": 15,
 											"width": 174.4970703125,
 											"height": 13,
-											"text": "CrearCazador"
+											"text": "Personajes.CrearCazador"
 										},
 										{
 											"_type": "LabelView",
@@ -8672,7 +8672,7 @@
 											"top": 48,
 											"width": 174.4970703125,
 											"height": 13,
-											"text": "+crearPersonaje(int): Cazador",
+											"text": "+crearPersonaje(int): Personajes.Cazador",
 											"horizontalAlignment": 0
 										}
 									],
@@ -9060,7 +9060,7 @@
 											"top": 543,
 											"width": 226.17333984375,
 											"height": 13,
-											"text": "Notificador"
+											"text": "Observers.Notificador"
 										},
 										{
 											"_type": "LabelView",
@@ -9166,7 +9166,7 @@
 											"top": 596,
 											"width": 226.17333984375,
 											"height": 13,
-											"text": "-oferta: Oferta",
+											"text": "-oferta: Ventas.Oferta",
 											"horizontalAlignment": 0
 										}
 									],
@@ -9217,7 +9217,7 @@
 											"top": 634,
 											"width": 226.17333984375,
 											"height": 13,
-											"text": "+suscribirse(Observador)",
+											"text": "+suscribirse(Observers.Observador)",
 											"horizontalAlignment": 0
 										},
 										{
@@ -9234,7 +9234,7 @@
 											"top": 649,
 											"width": 226.17333984375,
 											"height": 13,
-											"text": "+desuscribirse(Observador)",
+											"text": "+desuscribirse(Observers.Observador)",
 											"horizontalAlignment": 0
 										},
 										{
@@ -9251,7 +9251,7 @@
 											"top": 664,
 											"width": 226.17333984375,
 											"height": 13,
-											"text": "+añadirOferta(Oferta)",
+											"text": "+añadirOferta(Ventas.Oferta)",
 											"horizontalAlignment": 0
 										}
 									],
@@ -9359,7 +9359,7 @@
 											"top": 895,
 											"width": 247.45068359375,
 											"height": 13,
-											"text": "Observador Interface"
+											"text": "Observers.Observador Interface"
 										},
 										{
 											"_type": "LabelView",
@@ -9553,7 +9553,7 @@
 											"top": 927,
 											"width": 206,
 											"height": 13,
-											"text": "VentaLog"
+											"text": "Ventas.VentaLog"
 										},
 										{
 											"_type": "LabelView",
@@ -11752,7 +11752,7 @@
 											"top": 719,
 											"width": 165.08349609375,
 											"height": 13,
-											"text": "Observado Interface"
+											"text": "Observers.Observado Interface"
 										},
 										{
 											"_type": "LabelView",
@@ -11856,7 +11856,7 @@
 											"top": 767,
 											"width": 165.08349609375,
 											"height": 13,
-											"text": "+suscribirse(Observador)",
+											"text": "+suscribirse(Observers.Observador)",
 											"horizontalAlignment": 0
 										},
 										{
@@ -11873,7 +11873,7 @@
 											"top": 782,
 											"width": 165.08349609375,
 											"height": 13,
-											"text": "+desuscribirse(Observador)",
+											"text": "+desuscribirse(Observers.Observador)",
 											"horizontalAlignment": 0
 										}
 									],
@@ -12527,7 +12527,7 @@
 											"top": 990,
 											"width": 129.6826171875,
 											"height": 13,
-											"text": "-sistema: Sistema",
+											"text": "-sistema: Sistema.Sistema",
 											"horizontalAlignment": 0
 										}
 									],
@@ -13718,7 +13718,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Vampiro",
+					"name": "Personajes.Vampiro",
 					"ownedElements": [
 						{
 							"_type": "UMLDependency",
@@ -13792,7 +13792,7 @@
 									"_parent": {
 										"$ref": "AAAAAAGAOCBOoPpPM0Q="
 									},
-									"name": "Esbirro",
+									"name": "Personajes.Esbirro",
 									"type": ""
 								}
 							]
@@ -13811,7 +13811,7 @@
 									"_parent": {
 										"$ref": "AAAAAAGAOCB5bvtnvdk="
 									},
-									"name": "Esbirro",
+									"name": "Personajes.Esbirro",
 									"type": ""
 								}
 							]
@@ -13875,7 +13875,7 @@
 									"_parent": {
 										"$ref": "AAAAAAGAOCEihAEaFi0="
 									},
-									"name": "Esbirro",
+									"name": "Personajes.Esbirro",
 									"type": ""
 								}
 							]
@@ -13894,7 +13894,7 @@
 									"_parent": {
 										"$ref": "AAAAAAGAOCFUZAJyeEA="
 									},
-									"name": "Esbirro",
+									"name": "Personajes.Esbirro",
 									"type": ""
 								}
 							]
@@ -13907,7 +13907,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Esbirro",
+					"name": "Personajes.Esbirro",
 					"ownedElements": [
 						{
 							"_type": "UMLAssociation",
@@ -14009,7 +14009,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Humano",
+					"name": "Personajes.Humano",
 					"ownedElements": [
 						{
 							"_type": "UMLGeneralization",
@@ -14054,7 +14054,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Ghoul",
+					"name": "Personajes.Ghoul",
 					"ownedElements": [
 						{
 							"_type": "UMLGeneralization",
@@ -14099,7 +14099,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Demonio",
+					"name": "Personajes.Demonio",
 					"ownedElements": [
 						{
 							"_type": "UMLGeneralization",
@@ -14124,7 +14124,7 @@
 							},
 							"name": "conjuntoEsbirros",
 							"visibility": "private",
-							"type": "Set <Esbirro>"
+							"type": "Set <Personajes.Esbirro>"
 						},
 						{
 							"_type": "UMLAttribute",
@@ -14154,7 +14154,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Usuario",
+					"name": "Usuario.Usuario",
 					"ownedElements": [
 						{
 							"_type": "UMLAssociation",
@@ -14270,7 +14270,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Operador",
+					"name": "Usuario.Operador",
 					"ownedElements": [
 						{
 							"_type": "UMLGeneralization",
@@ -14327,7 +14327,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Oferta",
+					"name": "Ventas.Oferta",
 					"ownedElements": [
 						{
 							"_type": "UMLAssociation",
@@ -14367,7 +14367,7 @@
 							},
 							"name": "listaEquipo",
 							"visibility": "private",
-							"type": "ArrayList<Equipo>"
+							"type": "ArrayList<Equipo.Equipo>"
 						},
 						{
 							"_type": "UMLAttribute",
@@ -14377,7 +14377,7 @@
 							},
 							"name": "listaEsbirros",
 							"visibility": "private",
-							"type": "ArrayList<Esbirro>"
+							"type": "ArrayList<Personajes.Esbirro>"
 						},
 						{
 							"_type": "UMLAttribute",
@@ -14464,7 +14464,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Personaje",
+					"name": "Personajes.Personaje",
 					"ownedElements": [
 						{
 							"_type": "UMLInterface",
@@ -14616,7 +14616,7 @@
 							},
 							"name": "listaArmas",
 							"visibility": "private",
-							"type": "ArrayList<Arma>"
+							"type": "ArrayList<Equipo.Arma>"
 						},
 						{
 							"_type": "UMLAttribute",
@@ -14626,7 +14626,7 @@
 							},
 							"name": "armasActivas",
 							"visibility": "private",
-							"type": "Set<Arma>"
+							"type": "Set<Equipo.Arma>"
 						},
 						{
 							"_type": "UMLAttribute",
@@ -14636,7 +14636,7 @@
 							},
 							"name": "listaArmaduras",
 							"visibility": "private",
-							"type": "ArrayList<Armadura>"
+							"type": "ArrayList<Equipo.Armadura>"
 						},
 						{
 							"_type": "UMLAttribute",
@@ -14646,7 +14646,7 @@
 							},
 							"name": "armaduraActiva",
 							"visibility": "private",
-							"type": "Set<Armadura>"
+							"type": "Set<Equipo.Armadura>"
 						},
 						{
 							"_type": "UMLAttribute",
@@ -14656,7 +14656,7 @@
 							},
 							"name": "listaEsbirros",
 							"visibility": "private",
-							"type": "ArrayList<Esbirro>"
+							"type": "ArrayList<Personajes.Esbirro>"
 						},
 						{
 							"_type": "UMLAttribute",
@@ -14773,7 +14773,7 @@
 									"_parent": {
 										"$ref": "AAAAAAF/0ETcxZYzFzM="
 									},
-									"name": "Esbirro",
+									"name": "Personajes.Esbirro",
 									"type": ""
 								}
 							],
@@ -14793,7 +14793,7 @@
 									"_parent": {
 										"$ref": "AAAAAAF/0EVTA5cHRuA="
 									},
-									"name": "Esbirro",
+									"name": "Personajes.Esbirro",
 									"type": ""
 								}
 							]
@@ -14865,7 +14865,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Equipo",
+					"name": "Equipo.Equipo",
 					"attributes": [
 						{
 							"_type": "UMLAttribute",
@@ -14937,7 +14937,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Arma",
+					"name": "Equipo.Arma",
 					"ownedElements": [
 						{
 							"_type": "UMLGeneralization",
@@ -14982,7 +14982,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Armadura",
+					"name": "Equipo.Armadura",
 					"ownedElements": [
 						{
 							"_type": "UMLGeneralization",
@@ -15075,7 +15075,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Sistema",
+					"name": "Sistema.Sistema",
 					"ownedElements": [
 						{
 							"_type": "UMLAssociation",
@@ -15233,7 +15233,7 @@
 							},
 							"name": "whiteList",
 							"visibility": "private",
-							"type": "ArrayList<Usuario>"
+							"type": "ArrayList<Usuario.Usuario>"
 						},
 						{
 							"_type": "UMLAttribute",
@@ -15243,7 +15243,7 @@
 							},
 							"name": "blackList",
 							"visibility": "private",
-							"type": "ArrayList<Usuario>"
+							"type": "ArrayList<Usuario.Usuario>"
 						},
 						{
 							"_type": "UMLAttribute",
@@ -15253,7 +15253,7 @@
 							},
 							"name": "listaOfertas",
 							"visibility": "private",
-							"type": "ArrayList<Oferta>"
+							"type": "ArrayList<Ventas.Oferta>"
 						},
 						{
 							"_type": "UMLAttribute",
@@ -15263,7 +15263,7 @@
 							},
 							"name": "listaNotificador",
 							"visibility": "private",
-							"type": "ArrayList<Notificador>"
+							"type": "ArrayList<Observers.Notificador>"
 						},
 						{
 							"_type": "UMLAttribute",
@@ -15273,7 +15273,7 @@
 							},
 							"name": "listaLogs",
 							"visibility": "private",
-							"type": "ArrayList<VentaLog>"
+							"type": "ArrayList<Ventas.VentaLog>"
 						},
 						{
 							"_type": "UMLAttribute",
@@ -15283,7 +15283,7 @@
 							},
 							"name": "conjuntoArmas",
 							"visibility": "private",
-							"type": "Set<Arma>"
+							"type": "Set<Equipo.Arma>"
 						},
 						{
 							"_type": "UMLAttribute",
@@ -15293,7 +15293,7 @@
 							},
 							"name": "conjuntoArmaduras",
 							"visibility": "private",
-							"type": "Set<Armadura>"
+							"type": "Set<Equipo.Armadura>"
 						},
 						{
 							"_type": "UMLAttribute",
@@ -15303,7 +15303,7 @@
 							},
 							"name": "listaOfertasNoValidadas",
 							"visibility": "private",
-							"type": "ArrayList<Oferta>"
+							"type": "ArrayList<Ventas.Oferta>"
 						}
 					],
 					"operations": [
@@ -15501,7 +15501,7 @@
 									"_parent": {
 										"$ref": "AAAAAAF/0AoAi8WcCvM="
 									},
-									"name": "Personaje",
+									"name": "Personajes.Personaje",
 									"type": ""
 								}
 							]
@@ -15567,7 +15567,7 @@
 									"_parent": {
 										"$ref": "AAAAAAGAXHTWvWIc4Ws="
 									},
-									"type": "HashSet<Arma>??",
+									"type": "HashSet<Equipo.Arma>??",
 									"direction": "return"
 								}
 							]
@@ -15626,7 +15626,7 @@
 									"_parent": {
 										"$ref": "AAAAAAGAXK99R2aY/c0="
 									},
-									"type": "HashSet<Armadura>??",
+									"type": "HashSet<Equipo.Armadura>??",
 									"direction": "return"
 								}
 							]
@@ -15947,7 +15947,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Cazador",
+					"name": "Personajes.Cazador",
 					"ownedElements": [
 						{
 							"_type": "UMLGeneralization",
@@ -15998,7 +15998,7 @@
 									"_parent": {
 										"$ref": "AAAAAAGAOCGPwQPzrNA="
 									},
-									"name": "Esbirro",
+									"name": "Personajes.Esbirro",
 									"type": ""
 								}
 							]
@@ -16017,7 +16017,7 @@
 									"_parent": {
 										"$ref": "AAAAAAGAOCHX4AUiQYc="
 									},
-									"name": "Esbirro",
+									"name": "Personajes.Esbirro",
 									"type": ""
 								}
 							]
@@ -16030,7 +16030,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Jugador",
+					"name": "Usuario.Jugador",
 					"ownedElements": [
 						{
 							"_type": "UMLGeneralization",
@@ -16227,7 +16227,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Creator",
+					"name": "Personajes.Creator",
 					"ownedElements": [
 						{
 							"_type": "UMLDependency",
@@ -16394,7 +16394,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "CrearCazador",
+					"name": "Personajes.CrearCazador",
 					"ownedElements": [
 						{
 							"_type": "UMLGeneralization",
@@ -16449,7 +16449,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Notificador",
+					"name": "Observers.Notificador",
 					"ownedElements": [
 						{
 							"_type": "UMLAssociation",
@@ -16605,7 +16605,7 @@
 									"_parent": {
 										"$ref": "AAAAAAGAOFlBWK87sng="
 									},
-									"name": "Observador"
+									"name": "Observers.Observador"
 								}
 							]
 						},
@@ -16623,7 +16623,7 @@
 									"_parent": {
 										"$ref": "AAAAAAGAOFnVpbO1y3g="
 									},
-									"name": "Observador"
+									"name": "Observers.Observador"
 								}
 							]
 						},
@@ -16641,7 +16641,7 @@
 									"_parent": {
 										"$ref": "AAAAAAGB2EA8f5nb6Ws="
 									},
-									"name": "Oferta",
+									"name": "Ventas.Oferta",
 									"type": ""
 								}
 							]
@@ -16654,7 +16654,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Observador Interface",
+					"name": "Observers.Observador Interface",
 					"ownedElements": [
 						{
 							"_type": "UMLDependency",
@@ -16700,7 +16700,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "VentaLog",
+					"name": "Ventas.VentaLog",
 					"ownedElements": [
 						{
 							"_type": "UMLAssociation",
@@ -16981,7 +16981,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Observado Interface",
+					"name": "Observers.Observado Interface",
 					"operations": [
 						{
 							"_type": "UMLOperation",
@@ -17006,7 +17006,7 @@
 									"_parent": {
 										"$ref": "AAAAAAGB2CVKD85VQd4="
 									},
-									"name": "Observador"
+									"name": "Observers.Observador"
 								}
 							],
 							"isAbstract": true
@@ -17025,7 +17025,7 @@
 									"_parent": {
 										"$ref": "AAAAAAGB2CVNnc+6OLI="
 									},
-									"name": "Observador"
+									"name": "Observers.Observador"
 								}
 							],
 							"isAbstract": true

@@ -1,3 +1,8 @@
+package Ventas;
+
+import Equipo.Equipo;
+import Personajes.Esbirro;
+import Usuario.Usuario;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -20,7 +25,7 @@ public class Oferta implements Serializable {
         this.usuarioVendedor = usuarioVendedor;
     }
     public void mostrarOferta(){
-        System.out.println("Usuario vendedor: " + usuarioVendedor.getNick());
+        System.out.println("Usuario.Usuario vendedor: " + usuarioVendedor.getNick());
         System.out.println("Precio: " + precio);
         System.out.println("Artículos vendidos: ");
         if (!listaEquipo.isEmpty()){

@@ -1,3 +1,5 @@
+package Personajes;
+
 import java.io.Serializable;
 
 public class Ghoul extends Esbirro implements Serializable {
@@ -18,7 +20,7 @@ public class Ghoul extends Esbirro implements Serializable {
 
     @Override
     public void mostrarEsbirro() {
-        System.out.println("Tipo: Ghoul");
+        System.out.println("Tipo: Personajes.Ghoul");
         System.out.println("Nombre: " + getNombre());
         System.out.println("Salud: " + getSalud());
         System.out.println("Dependencia: " + getDependencia());
