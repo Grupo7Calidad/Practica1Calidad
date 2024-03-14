@@ -3,21 +3,22 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: cimg/base:current
+      - image: cimg/java:latest  # Usamos una imagen de Docker con Java y Maven preinstalados
     steps:
       - checkout
       - run:
-          name: Build an artifact
-          command: touch example.txt
+          name: Build with Maven
+          command: mvn package  # Este comando compila el proyecto y empaqueta el artefacto (por ejemplo, un JAR)
       - store_artifacts:
-          path: example.txt
+          path: target/  # Cambia esto al directorio donde Maven genera los artefactos
   deploy:
     docker:
       - image: cimg/base:current
     steps:
+      - checkout
       - run:
-          name: deploy
-          command: "#e.g. ./deploy.sh"
+          name: Deploy
+          command: "#e.g. ./deploy.sh"  # Asegúrate de tener un script de despliegue o el comando apropiado aquí
 
 workflows:
   example:
