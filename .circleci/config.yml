@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: cimg/java:latest  # Usamos una imagen de Docker con Java y Maven preinstalados
+      - image: cimg/openjdk:17.0  # Usamos una imagen de Docker con Java y Maven preinstalados
     steps:
       - checkout
       - run:
