@@ -43,15 +43,15 @@ public class Demonio extends Esbirro implements Serializable {
     }
 
     private Humano crearHumano() {
-        return new Humano(generarNombre("Personajes.Humano"), generarSalud(), generarLealtad());
+        return new Humano(generarNombre("Humano"), generarSalud(), generarLealtad());
     }
 
     private Ghoul crearGhoul() {
-        return new Ghoul(generarNombre("Personajes.Ghoul"), generarSalud(), generarIndependencia());
+        return new Ghoul(generarNombre("Ghoul"), generarSalud(), generarIndependencia());
     }
 
     private Demonio crearDemonio() {
-        String nombre = generarNombre("Personajes.Demonio");
+        String nombre = generarNombre("Demonio");
         return new Demonio(nombre, generarSalud(), nombre + " ha pactado con " + getNombre());
     }
 
