@@ -17,12 +17,12 @@ class nickNoRegistradoTest {
                         "\nTester" +//nombre
                         "\nTester1" +//nick
                         "\n12345678" +//contraseña
-                        "\nPersonaje" +//nombre del personaje
+                        "\nPersonajes.Personaje" +//nombre del personaje
                         "\n200" +//cantidad de oro
                         "\n1" +//rol personaje
                         "\n1" +//puntos de voluntad
                         "\n1" +//tipo de esbirro
-                        "\nEsbirro" +//nombre del esbirro
+                        "\nPersonajes.Esbirro" +//nombre del esbirro
                         "\n1" +//salud del esbirro
                         "\nALTA" +//tipo de lealtad
                         "\n19" +//seleccione equipo a añadir
@@ -35,12 +35,12 @@ class nickNoRegistradoTest {
                         "\nTester1" +//nick igual
                         "\nTester2" +//nick distinto
                         "\n12345678" +//contraseña
-                        "\nPersonaje" +//nombre del personaje
+                        "\nPersonajes.Personaje" +//nombre del personaje
                         "\n300" +//cantidad de oro
                         "\n1" +//rol personaje
                         "\n1" +//puntos de voluntad
                         "\n1" +//tipo de esbirro
-                        "\nEsbirro" +//nombre del esbirro
+                        "\nPersonajes.Esbirro" +//nombre del esbirro
                         "\n1" +//salud del esbirro
                         "\nALTA" +//tipo de lealtad
                         "\n19" +//seleccione equipo a añadir
@@ -67,12 +67,12 @@ class contraseñaTest{
                         "\n1234567" +//contraseña de 7 digitos, es decir, menos de 8 caracteres
                         "\n1234567890123" + //contraseña de 13 digitos, es decir, mas de 12 caracteres
                         "\n123456789" + //contraseña de 9 digitos, es decir, entre 8 y 12 caracteres
-                        "\nPersonaje" +//nombre del personaje
+                        "\nPersonajes.Personaje" +//nombre del personaje
                         "\n200" +//cantidad de oro
                         "\n1"+//rol personaje
                         "\n1"+//puntos de voluntad
                         "\n1"+//tipo de esbirro
-                        "\nEsbirro"+//nombre del esbirro
+                        "\nPersonajes.Esbirro"+//nombre del esbirro
                         "\n1" +//salud del esbirro
                         "\nALTA" +//tipo de lealtad
                         "\n19"+//seleccione equipo a añadir
@@ -95,12 +95,12 @@ class numRegistroAleatorioTest {
                         "\nTester" +//nombre
                         "\nTester1" +//nick
                         "\n12345678" +//contraseña
-                        "\nPersonaje" +//nombre del personaje
+                        "\nPersonajes.Personaje" +//nombre del personaje
                         "\n200" +//cantidad de oro
                         "\n1" +//rol personaje
                         "\n1" +//puntos de voluntad
                         "\n1" +//tipo de esbirro
-                        "\nEsbirro" +//nombre del esbirro
+                        "\nPersonajes.Esbirro" +//nombre del esbirro
                         "\n1" +//salud del esbirro
                         "\nALTA" +//tipo de lealtad
                         "\n19" +//seleccione equipo a añadir
@@ -112,12 +112,12 @@ class numRegistroAleatorioTest {
                         "\nTester" +//nombre
                         "\nTester2" +//nick
                         "\n12345678" +//contraseña
-                        "\nPersonaje" +//nombre del personaje
+                        "\nPersonajes.Personaje" +//nombre del personaje
                         "\n300" +//cantidad de oro
                         "\n1" +//rol personaje
                         "\n1" +//puntos de voluntad
                         "\n1" +//tipo de esbirro
-                        "\nEsbirro" +//nombre del esbirro
+                        "\nPersonajes.Esbirro" +//nombre del esbirro
                         "\n1" +//salud del esbirro
                         "\nALTA" +//tipo de lealtad
                         "\n19" +//seleccione equipo a añadir
@@ -143,12 +143,12 @@ class crearPersonajeTest {
                         "\nTester" + //nombre usuario
                         "\nTester2" + //nick
                         "\n123412344" + //contraseña
-                        "\nPersonaje" + //nombre personaje
+                        "\nPersonajes.Personaje" + //nombre personaje
                         "\n500" + //cantidad oro
-                        "\n1" +  //Rol de Personaje
+                        "\n1" +  //Rol de Personajes.Personaje
                         "\n1" + //puntos de sangre
                         "\n2" + //tipo de esbirro
-                        "\nGhoul" + //nombre de esbirro
+                        "\nPersonajes.Ghoul" + //nombre de esbirro
                         "\n1" + //salud de esbirro
                         "\n1" + //dependencia
                         "\n" + numEquipo +//numero de arma a elegir
@@ -171,12 +171,12 @@ class crearPersonajeTest {
                         "\nTester" + //nombre usuario
                         "\nTester1" + //nick
                         "\n123412344" + //contraseña
-                        "\nPersonaje" + //nombre personaje
+                        "\nPersonajes.Personaje" + //nombre personaje
                         "\n500" + //cantidad oro
-                        "\n3" +  //Rol de Personaje
+                        "\n3" +  //Rol de Personajes.Personaje
                         "\n1" + //puntos de voluntad
                         "\n1" + //tipo de esbirro
-                        "\nHumano" + //nombre de esbirro
+                        "\nPersonajes.Humano" + //nombre de esbirro
                         "\n1" + //salud de esbirro
                         "\nALTA" + //lealtad (en este caso)
                         "\n" + numEquipo +//numero de arma a elegir
@@ -199,13 +199,13 @@ class crearPersonajeTest {
                         "\nTester" + //nombre usuario
                         "\nTester1" + //nick
                         "\n123412344" + //contraseña
-                        "\nPersonaje" + //nombre personaje
+                        "\nPersonajes.Personaje" + //nombre personaje
                         "\n500" + //cantidad oro
-                        "\n2" +  //Rol de Personaje
+                        "\n2" +  //Rol de Personajes.Personaje
                         "\n1" + //puntos de sangre
                         "\n19" + //edad
                         "\n3" + //tipo de esbirro
-                        "\nDemonio" + //nombre de esbirro
+                        "\nPersonajes.Demonio" + //nombre de esbirro
                         "\n1" + //salud de esbirro
                         "\nALTA" + //pacto
                         "\n" + numEquipo +//numero de arma a elegir
@@ -260,12 +260,12 @@ class crearOfertaTest {
                 "\nTester" + //nombre usuario
                 "\nTester1" + //nick
                 "\n123412344" + //contraseña
-                "\nPersonaje" + //nombre personaje
+                "\nPersonajes.Personaje" + //nombre personaje
                 "\n500" + //cantidad oro
-                "\n1" +  //Rol de Personaje
+                "\n1" +  //Rol de Personajes.Personaje
                 "\n1" + //puntos de voluntad
                 "\n1" + //tipo de esbirro
-                "\nHumano" + //nombre de esbirro
+                "\nPersonajes.Humano" + //nombre de esbirro
                 "\n1" + //salud de esbirro
                 "\nALTA" + //lealtad (en este caso)
                 "\n" + numEquipo +//numero de arma a elegir
@@ -275,7 +275,7 @@ class crearOfertaTest {
                 "\n1" + //crear una oferta
                 "\n1" + //Armas()
                 "\n0" + //añadir arma 1 (Debe eliminar esta arma de armas activas también)
-                "\n5" + //Finalizar Oferta
+                "\n5" + //Finalizar Ventas.Oferta
                 "\n33" + //Introduzca un precio valido
                 "\n5" +//Salir
                 "\n3";
@@ -308,12 +308,12 @@ class MenuAvanzadoOfertasTest {
                 "\nTester" + //nombre usuario
                 "\nTester1" + //nick
                 "\n123412344" + //contraseña
-                "\nPersonaje" + //nombre personaje
+                "\nPersonajes.Personaje" + //nombre personaje
                 "\n500" + //cantidad oro
-                "\n1" +  //Rol de Personaje
+                "\n1" +  //Rol de Personajes.Personaje
                 "\n1" + //puntos de voluntad
                 "\n1" + //tipo de esbirro
-                "\nHumano" + //nombre de esbirro
+                "\nPersonajes.Humano" + //nombre de esbirro
                 "\n1" + //salud de esbirro
                 "\nALTA" + //lealtad (en este caso)
                 "\n" + numEquipo +//numero de arma a elegir
@@ -342,12 +342,12 @@ class crearNotificacionTest {
                 "\nTester1" + //nombre usuario
                 "\nPrimerTester" + //nick
                 "\n123412344" + //contraseña
-                "\nPersonaje" + //nombre personaje
+                "\nPersonajes.Personaje" + //nombre personaje
                 "\n500" + //cantidad oro
-                "\n1" +  //Rol de Personaje
+                "\n1" +  //Rol de Personajes.Personaje
                 "\n1" + //puntos de voluntad
                 "\n1" + //tipo de esbirro
-                "\nHumano" + //nombre de esbirro
+                "\nPersonajes.Humano" + //nombre de esbirro
                 "\n1" + //salud de esbirro
                 "\nALTA" + //lealtad (en este caso)
                 "\n" + numEquipo +//numero de arma a elegir
@@ -357,7 +357,7 @@ class crearNotificacionTest {
                 "\n1" + //crear una oferta
                 "\n1" + //Armas()
                 "\n0" + //añadir arma 1 (Debe eliminar esta arma de armas activas también)
-                "\n5" + //Finalizar Oferta
+                "\n5" + //Finalizar Ventas.Oferta
                 "\n33" + //Introduzca un precio valido
                 "\n5" +//Salir
                 "\n1" + //registrarse
@@ -365,12 +365,12 @@ class crearNotificacionTest {
                 "\nTester2" + //nombre usuario
                 "\nSegundoTester" + //nick
                 "\n123412344" + //contraseña
-                "\nPersonaje" + //nombre personaje
+                "\nPersonajes.Personaje" + //nombre personaje
                 "\n500" + //cantidad oro
-                "\n1" +  //Rol de Personaje
+                "\n1" +  //Rol de Personajes.Personaje
                 "\n1" + //puntos de voluntad
                 "\n1" + //tipo de esbirro
-                "\nHumano" + //nombre de esbirro
+                "\nPersonajes.Humano" + //nombre de esbirro
                 "\n1" + //salud de esbirro
                 "\nALTA" + //lealtad (en este caso)
                 "\n" + numEquipo +//numero de arma a elegir
@@ -384,7 +384,7 @@ class crearNotificacionTest {
                 "\n1" + //registrarse
                 "\n2" + //registrar operador
                 "\n1234" + //codigo de operador
-                "\nOperador" + //nick
+                "\nUsuario.Operador" + //nick
                 "\nOperador1" + //nick
                 "\n123412344" + //contraseña
                 "\n1" + //validar ofertas
@@ -416,12 +416,12 @@ class validarOfertaTest {
                         "\nTester" + // nombre
                         "\nTester1" + //nick
                         "\n123412344" + //contraseña
-                        "\nPersonaje" + // nombre del personaje
+                        "\nPersonajes.Personaje" + // nombre del personaje
                         "\n200" + //cantidad oro
-                        "\n1" +  //Rol de Personaje(cazador)
+                        "\n1" +  //Rol de Personajes.Personaje(cazador)
                         "\n1" + //puntos de voluntad
                         "\n1" + // elegir el tipo de esbirro
-                        "\nHumano" + //nombre del esbirro
+                        "\nPersonajes.Humano" + //nombre del esbirro
                         "\n1" + //cantidad de salud del esbirro
                         "\nALTA" + // elegir la lealtad
                         "\n12" + // elegir el arma/armadura para el personaje
@@ -460,12 +460,12 @@ class validarOfertaTest {
                         "\nTester" + // nombre
                         "\nTester1" + //nick
                         "\n123412344" + //contraseña
-                        "\nPersonaje" + // nombre del personaje
+                        "\nPersonajes.Personaje" + // nombre del personaje
                         "\n200" + //cantidad oro
-                        "\n1" +  //Rol de Personaje(cazador)
+                        "\n1" +  //Rol de Personajes.Personaje(cazador)
                         "\n1" + //puntos de voluntad
                         "\n1" + // elegir el tipo de esbirro
-                        "\nHumano" + //nombre del esbirro
+                        "\nPersonajes.Humano" + //nombre del esbirro
                         "\n1" + //cantidad de salud del esbirro
                         "\nALTA" + // elegir la lealtad
                         "\n12" + // elegir el arma/armadura para el personaje
@@ -511,12 +511,12 @@ class banearUsuarioTest {
                         "\nTester" + // nombre
                         "\nTester1" + //nick
                         "\n123412344" + //contraseña
-                        "\nPersonaje" + // nombre del personaje
+                        "\nPersonajes.Personaje" + // nombre del personaje
                         "\n200" + //cantidad oro
-                        "\n1" +  //Rol de Personaje(cazador)
+                        "\n1" +  //Rol de Personajes.Personaje(cazador)
                         "\n1" + //puntos de voluntad
                         "\n1" + // elegir el tipo de esbirro
-                        "\nHumano" + //nombre del esbirro
+                        "\nPersonajes.Humano" + //nombre del esbirro
                         "\n1" + //cantidad de salud del esbirro
                         "\nALTA" + // elegir la lealtad
                         "\n12" + // elegir el arma/armadura para el personaje
@@ -554,12 +554,12 @@ class desbanearUsuarioTest {
                         "\nTester" + // nombre
                         "\nTester1" + //nick
                         "\n123412344" + //contraseña
-                        "\nPersonaje" + // nombre del personaje
+                        "\nPersonajes.Personaje" + // nombre del personaje
                         "\n200" + //cantidad oro
-                        "\n1" +  //Rol de Personaje(cazador)
+                        "\n1" +  //Rol de Personajes.Personaje(cazador)
                         "\n1" + //puntos de voluntad
                         "\n1" + // elegir el tipo de esbirro
-                        "\nHumano" + //nombre del esbirro
+                        "\nPersonajes.Humano" + //nombre del esbirro
                         "\n1" + //cantidad de salud del esbirro
                         "\nALTA" + // elegir la lealtad
                         "\n12" + // elegir el arma/armadura para el personaje
@@ -620,12 +620,12 @@ class darseDeBajaJugadorTest {
                         "\nTester" +//nombre
                         "\nTester1" +//nick
                         "\n12345678" +//contraseña
-                        "\nPersonaje" +//nombre del personaje
+                        "\nPersonajes.Personaje" +//nombre del personaje
                         "\n200" +//cantidad de oro
                         "\n1" +//rol personaje
                         "\n1" +//puntos de voluntad
                         "\n1" +//tipo de esbirro
-                        "\nEsbirro" +//nombre del esbirro
+                        "\nPersonajes.Esbirro" +//nombre del esbirro
                         "\n1" +//salud del esbirro
                         "\nALTA" +//tipo de lealtad
                         "\n19" +//seleccione equipo a añadir
@@ -651,12 +651,12 @@ class buscarYComprarOfertaTest {
                         "\nTester" + // nombre
                         "\nTester1" + //nick
                         "\n123412344" + //contraseña
-                        "\nPersonaje" + // nombre del personaje
+                        "\nPersonajes.Personaje" + // nombre del personaje
                         "\n200" + //cantidad oro
-                        "\n1" +  //Rol de Personaje(cazador)
+                        "\n1" +  //Rol de Personajes.Personaje(cazador)
                         "\n1" + //puntos de voluntad
                         "\n1" + // elegir el tipo de esbirro
-                        "\nHumano" + //nombre del esbirro
+                        "\nPersonajes.Humano" + //nombre del esbirro
                         "\n1" + //cantidad de salud del esbirro
                         "\nALTA" + // elegir la lealtad
                         "\n12" + // elegir el arma/armadura para el personaje
@@ -688,12 +688,12 @@ class buscarYComprarOfertaTest {
                         "\nTester" + // nombre
                         "\nT" + //nick
                         "\n123412344" + //contraseña
-                        "\nPersonaje" + // nombre del personaje
+                        "\nPersonajes.Personaje" + // nombre del personaje
                         "\n500" + //cantidad oro
-                        "\n1" +  //Rol de Personaje(cazador)
+                        "\n1" +  //Rol de Personajes.Personaje(cazador)
                         "\n1" + //puntos de voluntad
                         "\n1" + // elegir el tipo de esbirro
-                        "\nHumano" + //nombre del esbirro
+                        "\nPersonajes.Humano" + //nombre del esbirro
                         "\n1" + //cantidad de salud del esbirro
                         "\nALTA" + // elegir la lealtad
                         "\n12" + // elegir el arma/armadura para el personaje
@@ -726,12 +726,12 @@ class modificarOroTest {
                 "\nTester" + //nombre usuario
                 "\nTester1" + //nick
                 "\n123412344" + //contraseña
-                "\nPersonaje" + //nombre personaje
+                "\nPersonajes.Personaje" + //nombre personaje
                 "\n" + cantidadOroInicial + //cantidad oro
-                "\n1" +  //Rol de Personaje
+                "\n1" +  //Rol de Personajes.Personaje
                 "\n1" + //puntos de voluntad
                 "\n1" + //tipo de esbirro
-                "\nHumano" + //nombre de esbirro
+                "\nPersonajes.Humano" + //nombre de esbirro
                 "\n1" + //salud de esbirro
                 "\nALTA" + //lealtad (en este caso)
                 "\n12" + //numero de arma a elegir
@@ -766,12 +766,12 @@ class modificarEquipoTest {
                 "\nTester" + //nombre usuario
                 "\nTester1" + //nick
                 "\n123412344" + //contraseña
-                "\nPersonaje" + //nombre personaje
+                "\nPersonajes.Personaje" + //nombre personaje
                 "\n500" + //cantidad oro
-                "\n1" +  //Rol de Personaje
+                "\n1" +  //Rol de Personajes.Personaje
                 "\n1" + //puntos de voluntad
                 "\n1" + //tipo de esbirro
-                "\nHumano" + //nombre de esbirro
+                "\nPersonajes.Humano" + //nombre de esbirro
                 "\n1" + //salud de esbirro
                 "\nALTA" + //lealtad (en este caso)
                 "\n" + numEquipo1 +//numero de arma a elegir
