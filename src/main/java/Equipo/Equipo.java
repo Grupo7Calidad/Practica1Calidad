@@ -41,4 +41,14 @@ public abstract class Equipo implements Serializable {
     }
 
     public void setModDefensa(int modDefensa) { this.modDefensa = modDefensa; }
+
+    @Override
+    public String toString() {
+        return nombre + " {" +
+                "Mod. Ataque: " + modAtaque +
+                ", Mod. Defensa: " + modDefensa +
+                ", Categoria: '" + categoria + '\'' +
+                ", Materiales: " + listaMateriales +
+                "}";
+    }
 }

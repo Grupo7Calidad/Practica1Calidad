@@ -3,6 +3,7 @@ package Sistema;
 import Equipo.Arma;
 import Equipo.Armadura;
 import Equipo.Equipo;
+import Equipo.LootBox.LootBoxDefault;
 import Observers.Notificador;
 import Observers.Observador;
 import Personajes.CrearCazador;
@@ -40,7 +41,7 @@ public class Sistema implements Serializable {
     private List<VentaLog> listaLogs = new ArrayList<>();
     private List<Arma> conjuntoArmas = new ArrayList<>();
     private List<Armadura> conjuntoArmaduras = new ArrayList<>();
-    private Personaje p;
+    private Personaje personaje;
     private SuscripcionOferta suscripcionOferta;
 
     public Sistema() throws IOException {
@@ -253,7 +254,7 @@ public class Sistema implements Serializable {
         String nick = obtenerNickValido(sc);
         String contraseña = obtenerContraseñaValida(sc);
         registrarPersonaje(sc);
-        Personaje personaje = p; // Asumo que p es una variable de instancia
+        Personaje personaje = this.personaje; // Asumo que p es una variable de instancia
 
         String numeroRegistro = calcularNumRegistro();
         Jugador player = new Jugador(nombre, nick, contraseña, personaje, numeroRegistro);
@@ -410,14 +411,15 @@ public class Sistema implements Serializable {
         System.out.println("2. Gestion avanzada de las ofertas");
         System.out.println("3. Darse de baja");
         System.out.println("4. Mostrar Notificaciones");
-        System.out.println("5. Salir");
+        System.out.println("5. Abrir lootbox");
+        System.out.println("6. Salir");
         System.out.println("-----------------------------------------------------");
         if (!((Jugador) usuario).getListaNotificaciones().isEmpty()){
             System.out.println("*¡Tienes nuevas notificaciones!*");
         }
         do{
             opcionMJ = sc.nextInt();
-            if(opcionMJ > 5 || opcionMJ < 1){
+            if(opcionMJ > 6 || opcionMJ < 1){
                 System.out.println("Introduce una opcion correcta");
             }
         }while(opcionMJ > 5 || opcionMJ < 1);
@@ -436,6 +438,8 @@ public class Sistema implements Serializable {
                 mostrarNotificaciones();
                 break;
             case 5:
+                menuLootboxes(sc);
+            case 6:
                 salir(sc);
                 break;
 
@@ -443,6 +447,36 @@ public class Sistema implements Serializable {
         if (opcionMJ != 5 && opcionMJ != 3){
             menuPrincipal(sc);
         }
+    }
+
+    private void menuLootboxes(Scanner sc) throws IOException {
+        System.out.println("-----------------------------------------------------");
+        System.out.println("Tipos de lootboxes disponibles:");
+        System.out.println("1. LootBox Equipo Estándar");
+        System.out.println("(COMING SOON) LootBox Navidad");
+        System.out.println("2. Salir");
+        System.out.println("-----------------------------------------------------");
+
+        int opcion = sc.nextInt();
+        while(opcion < 1 || opcion > 2) {
+            System.out.println("Introduce una opcion correcta");
+            opcion = sc.nextInt();
+        }
+        if (opcion == 1) {
+            LootBoxDefault lootBoxDefault = new LootBoxDefault();
+            String opcionLootBox = "";
+            while (!opcionLootBox.equals("0")) {
+                lootBoxDefault.mostrarPrecioCategorias();
+                System.out.println("Introduce la categoría que quieres comprar, o 0 para salir");
+                opcionLootBox = sc.next();
+                try {
+                    lootBoxDefault.abrirLootBox(opcionLootBox, personaje);
+                } catch (IllegalArgumentException | ArithmeticException exception) {
+                    System.out.println(exception.getMessage());
+                }
+            }
+        }
+        menuJugador(sc);
     }
 
     public void mostrarNotificaciones() {
@@ -537,15 +571,15 @@ public class Sistema implements Serializable {
     }
 
     private void mostrarOroPersonaje() {
-        System.out.println("Cantidad de oro del Personajes.Personaje: " + p.getCantidadOro() + " monedas de oro");
+        System.out.println("Cantidad de oro del Personajes.Personaje: " + personaje.getCantidadOro() + " monedas de oro");
     }
 
     private void mostrarArmasPersonaje() {
         System.out.println("Armas del Personajes.Personaje:");
-        if (!p.getListaArmas().isEmpty()) {
+        if (!personaje.getListaArmas().isEmpty()) {
             int i = 1;
-            for (Arma arma : p.getListaArmas()) {
-                if (!p.getArmasActivas().contains(arma)) {
+            for (Arma arma : personaje.getListaArmas()) {
+                if (!personaje.getArmasActivas().contains(arma)) {
                     System.out.println(i++ + ". " + arma.getNombre());
                 }
             }
@@ -556,9 +590,9 @@ public class Sistema implements Serializable {
 
     private void mostrarArmadurasPersonaje() {
         System.out.println("Armaduras del Personajes.Personaje:");
-        if (!p.getListaArmaduras().isEmpty()) {
+        if (!personaje.getListaArmaduras().isEmpty()) {
             int i = 1;
-            for (Armadura armadura : p.getListaArmaduras()) {
+            for (Armadura armadura : personaje.getListaArmaduras()) {
                 System.out.println(i++ + ". " + armadura.getNombre());
             }
         } else {
@@ -568,9 +602,9 @@ public class Sistema implements Serializable {
 
     private void mostrarArmasActivasPersonaje() {
         System.out.println("Armas activas:");
-        if (!p.getArmasActivas().isEmpty()) {
+        if (!personaje.getArmasActivas().isEmpty()) {
             int i = 1;
-            for (Arma activa : p.getArmasActivas()) {
+            for (Arma activa : personaje.getArmasActivas()) {
                 System.out.println(i++ + ".");
                 activa.mostrarEquipo();
             }
@@ -581,8 +615,8 @@ public class Sistema implements Serializable {
 
     private void mostrarEsbirrosPersonaje() {
         System.out.println("Esbirros del Personajes.Personaje:");
-        if (!p.getListaEsbirros().isEmpty()) {
-            for (Esbirro esbirro : p.getListaEsbirros()) {
+        if (!personaje.getListaEsbirros().isEmpty()) {
+            for (Esbirro esbirro : personaje.getListaEsbirros()) {
                 esbirro.mostrarEsbirro();
             }
         } else {
@@ -603,13 +637,13 @@ public class Sistema implements Serializable {
         int cantidadOro = sc.nextInt();
         ArrayList<Arma> armasActivas = new ArrayList<>();
         ArrayList<Esbirro> listaEsbirros = new ArrayList<>();
-        p = new Personaje(nombre, new ArrayList<Arma>(), armasActivas, new ArrayList<Armadura>(), listaEsbirros, cantidadOro) {
+        personaje = new Personaje(nombre, new ArrayList<Arma>(), armasActivas, new ArrayList<Armadura>(), listaEsbirros, cantidadOro) {
             @Override
             public void añadirEsbirro(Esbirro esbirro) {
 
             }
         };
-        return p;
+        return personaje;
     }
 
     public void crearEsbirro(Scanner sc) {
@@ -624,7 +658,7 @@ public class Sistema implements Serializable {
         int salud = sc.nextInt();
         switch (opcion) {
             case 1:
-                if (p instanceof Vampiro) {
+                if (personaje instanceof Vampiro) {
                     System.out.println("Los vampiros no pueden tener humanos, introduzca otro tipo de esbirro");
                     crearEsbirro(sc);
                 } else {
@@ -635,7 +669,7 @@ public class Sistema implements Serializable {
                         lealtad = sc.next().toUpperCase();
                     }
                     Humano h = new Humano(nombreEsbirro, salud, lealtad);
-                    p.getListaEsbirros().add(h);
+                    personaje.getListaEsbirros().add(h);
                 }
                 break;
             case 2:
@@ -655,13 +689,13 @@ public class Sistema implements Serializable {
                     }
                 } while (error);
                 Ghoul g = new Ghoul(nombreEsbirro, salud, dependencia);
-                p.getListaEsbirros().add(g);
+                personaje.getListaEsbirros().add(g);
                 break;
             case 3:
                 System.out.println("Dime la descripcion del pacto");
                 String descripcion = sc.next();
                 Demonio demonio = new Demonio(nombreEsbirro, salud, descripcion);
-                p.getListaEsbirros().add(demonio);
+                personaje.getListaEsbirros().add(demonio);
                 break;
             default:
                 System.out.println("Introduce una opcion correcta");
@@ -693,7 +727,7 @@ public class Sistema implements Serializable {
 
     private Personaje registrarPersonaje(Scanner sc) {
         int opcionRol;
-        p = crearPersonajeBase(sc);
+        personaje = crearPersonajeBase(sc);
         System.out.println("Elige un rol");
         System.out.println("1. Personajes.Cazador");
         System.out.println("2. Personajes.Vampiro");
@@ -702,15 +736,15 @@ public class Sistema implements Serializable {
         switch (opcionRol) {
             case 1:
                 CrearCazador cazador = new CrearCazador();
-                p = cazador.crearPersonaje(p.getNombre(), p.getListaArmas(), p.getArmasActivas(), p.getListaArmaduras(), p.getListaEsbirros(), p.getCantidadOro(), sc);
+                personaje = cazador.crearPersonaje(personaje.getNombre(), personaje.getListaArmas(), personaje.getArmasActivas(), personaje.getListaArmaduras(), personaje.getListaEsbirros(), personaje.getCantidadOro(), sc);
                 break;
             case 2:
                 CrearVampiro vampiro = new CrearVampiro();
-                p = vampiro.crearPersonaje(p.getNombre(), p.getListaArmas(), p.getArmasActivas(), p.getListaArmaduras(), p.getListaEsbirros(), p.getCantidadOro(), sc);
+                personaje = vampiro.crearPersonaje(personaje.getNombre(), personaje.getListaArmas(), personaje.getArmasActivas(), personaje.getListaArmaduras(), personaje.getListaEsbirros(), personaje.getCantidadOro(), sc);
                 break;
             case 3:
                 CrearLicantropo licantropo = new CrearLicantropo();
-                p = licantropo.crearPersonaje(p.getNombre(), p.getListaArmas(), p.getArmasActivas(), p.getListaArmaduras(), p.getListaEsbirros(), p.getCantidadOro(), sc);
+                personaje = licantropo.crearPersonaje(personaje.getNombre(), personaje.getListaArmas(), personaje.getArmasActivas(), personaje.getListaArmaduras(), personaje.getListaEsbirros(), personaje.getCantidadOro(), sc);
                 break;
             default:
                 System.out.println("Introduce una opcion correcta");
@@ -718,7 +752,7 @@ public class Sistema implements Serializable {
                 break;
         }
         crearEsbirro(sc);
-        return p;
+        return personaje;
     }
 
 
@@ -757,7 +791,7 @@ public class Sistema implements Serializable {
             }
             if (registrado && whiteList.get(i - 1) instanceof Jugador) {
                 usuario = whiteList.get(i - 1);
-                p = ((Jugador) whiteList.get(i - 1)).getPersonaje();
+                personaje = ((Jugador) whiteList.get(i - 1)).getPersonaje();
             }
             return whiteList.get(i-1);
         } else {
@@ -1062,7 +1096,7 @@ public class Sistema implements Serializable {
             }
             if (registrado && whiteList.get(i - 1) instanceof Jugador) {
                 usuario = whiteList.get(i - 1);
-                p = ((Jugador) whiteList.get(i - 1)).getPersonaje();
+                personaje = ((Jugador) whiteList.get(i - 1)).getPersonaje();
             }
             return registrado;
         } else {
@@ -1518,6 +1552,8 @@ public class Sistema implements Serializable {
             this.max = max;
         }
     }
+
+    
 
     public List<VentaLog> getListaLogs() {
         return listaLogs;

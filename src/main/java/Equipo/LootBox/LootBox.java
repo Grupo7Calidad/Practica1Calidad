@@ -56,8 +56,13 @@ public abstract class LootBox {
                 precio = precioEpico;
                 break;
             default:
-                throw new IllegalArgumentException("La categoria de LootBox no existe. Unicamente hay comun raro y epico.");
+                throw new IllegalArgumentException("La categoria de LootBox no existe. Unicamente hay Común, Raro y Épico");
         }
+
+        if (precio > personaje.getCantidadOro()){
+            throw new ArithmeticException("No tienes suficiente dinero");
+        }
+
         Object premio = null;
         for (int i = 0; i < probabilidades.get(numCategoria).size(); i++) {
             cumulativeProbability += probabilidades.get(numCategoria).get(i);
@@ -72,6 +77,9 @@ public abstract class LootBox {
         }
 
         personaje.setCantidadOro(personaje.getCantidadOro()-precio);
+
+        System.out.println("Has obtenido:");
+        System.out.println(premio);
 
     }
 
@@ -94,6 +102,12 @@ public abstract class LootBox {
 
     public int getPrecioEpico() {
         return precioEpico;
+    }
+
+    public void mostrarPrecioCategorias() {
+        System.out.println("Común: " + precioComun);
+        System.out.println("Raro: " + precioRaro);
+        System.out.println("Épico: " + precioEpico);
     }
 
     public List<List<Object>> getItems() {

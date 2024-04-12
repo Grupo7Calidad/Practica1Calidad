@@ -5,7 +5,6 @@ import Equipo.Armadura;
 import Personajes.Esbirro;
 import Personajes.Personaje;
 import Personajes.Vampiro;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -50,6 +49,12 @@ class LootBoxDefaultTest {
         personaje.setCantidadOro(oroInicial);
         lootBoxDefault.abrirLootBox("epico", personaje);
         assert((personaje.getCantidadOro() + lootBoxDefault.getPrecioEpico()) == oroInicial);
+
+        personaje.setCantidadOro(0);
+        assertThrows(ArithmeticException.class, () -> {
+            lootBoxDefault.abrirLootBox("comun", personaje);
+        });
+
     }
 
     @Test
