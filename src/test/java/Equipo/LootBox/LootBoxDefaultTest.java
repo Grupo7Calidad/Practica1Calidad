@@ -2,6 +2,7 @@ package Equipo.LootBox;
 
 import Equipo.Arma;
 import Equipo.Armadura;
+import LootBox.LootBoxDefault;
 import Personajes.Esbirro;
 import Personajes.Personaje;
 import Personajes.Vampiro;

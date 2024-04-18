@@ -1,4 +1,4 @@
-package Equipo.LootBox;
+package LootBox;
 
 import Equipo.Arma;
 import Equipo.Armadura;
@@ -6,7 +6,7 @@ import Personajes.Personaje;
 
 public abstract class LootBoxEquipo extends LootBox{
     @Override
-    void guardarPremio(Object premio, Personaje personaje) {
+    public void guardarPremio(Object premio, Personaje personaje) {
         if (premio instanceof Arma){
             personaje.getListaArmas().add((Arma) premio);
         } else if (premio instanceof Armadura) {

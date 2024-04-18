@@ -3,7 +3,9 @@ package Sistema;
 import Equipo.Arma;
 import Equipo.Armadura;
 import Equipo.Equipo;
-import Equipo.LootBox.LootBoxDefault;
+import LootBox.LootBox;
+import LootBox.LootBoxDefault;
+import LootBox.LootBoxAniversario;
 import Observers.Notificador;
 import Observers.Observador;
 import Personajes.CrearCazador;
@@ -205,7 +207,7 @@ public class Sistema implements Serializable {
                 break;
             case 3:
                 System.out.println("Saliendo...");
-                //System.exit(0);
+                System.exit(0);
                 break;
         }
     }
@@ -422,7 +424,7 @@ public class Sistema implements Serializable {
             if(opcionMJ > 6 || opcionMJ < 1){
                 System.out.println("Introduce una opcion correcta");
             }
-        }while(opcionMJ > 5 || opcionMJ < 1);
+        }while(opcionMJ > 6 || opcionMJ < 1);
 
         switch (opcionMJ) {
             case 1:
@@ -453,29 +455,42 @@ public class Sistema implements Serializable {
         System.out.println("-----------------------------------------------------");
         System.out.println("Tipos de lootboxes disponibles:");
         System.out.println("1. LootBox Equipo Estándar");
-        System.out.println("(COMING SOON) LootBox Navidad");
-        System.out.println("2. Salir");
+        System.out.println("2. LootBox Equipo Edición Especial Aniversario");
+        System.out.println("0. Salir");
         System.out.println("-----------------------------------------------------");
 
         int opcion = sc.nextInt();
-        while(opcion < 1 || opcion > 2) {
+        while(opcion > 2 || opcion < 0) {
             System.out.println("Introduce una opcion correcta");
             opcion = sc.nextInt();
         }
-        if (opcion == 1) {
-            LootBoxDefault lootBoxDefault = new LootBoxDefault();
+
+        LootBox lootBox;
+        if (opcion != 0) {
+            if (opcion == 1) {
+                lootBox = new LootBoxDefault();
+            } else {
+                lootBox = new LootBoxAniversario();
+            }
             String opcionLootBox = "";
             while (!opcionLootBox.equals("0")) {
-                lootBoxDefault.mostrarPrecioCategorias();
-                System.out.println("Introduce la categoría que quieres comprar, o 0 para salir");
+                lootBox.mostrarPrecioCategorias();
+                System.out.println("1. Ver contenido del lootbox");
+                System.out.println("(\"Comun\", \"Raro\" o \"Epico\") Introduce la categoría que quieres comprar");
+                System.out.println("0. Salir");
                 opcionLootBox = sc.next();
-                try {
-                    lootBoxDefault.abrirLootBox(opcionLootBox, personaje);
-                } catch (IllegalArgumentException | ArithmeticException exception) {
-                    System.out.println(exception.getMessage());
+                if (opcionLootBox.equals("1")){
+                    lootBox.mostrarItems();
+                } else {
+                    try {
+                        lootBox.abrirLootBox(opcionLootBox, personaje);
+                    } catch (IllegalArgumentException | ArithmeticException exception) {
+                        System.out.println(exception.getMessage());
+                    }
                 }
             }
         }
+
         menuJugador(sc);
     }
 

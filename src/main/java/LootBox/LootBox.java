@@ -1,4 +1,4 @@
-package Equipo.LootBox;
+package LootBox;
 
 import Personajes.Personaje;
 
@@ -114,7 +114,7 @@ public abstract class LootBox {
         return items;
     }
 
-    //Solo para testear
+    //Solo para testing
     public void setItems(List<List<Object>> items) {
         this.items = items;
     }

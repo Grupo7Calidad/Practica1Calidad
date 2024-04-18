@@ -1,4 +1,4 @@
-package Equipo.LootBox;
+package LootBox;
 
 import Equipo.Arma;
 import Equipo.Armadura;
@@ -11,9 +11,9 @@ public class LootBoxDefault extends LootBoxEquipo {
     @Override
     void inicializarItems() {
         Arma espadaLarga = new Arma(2, 0, 1, "Espada Larga", "Comun", new ArrayList<>(Arrays.asList("Hierro", "Madera")));
-        Arma lanzaPlata = new Arma(2, 1, 2, "Lanza de Plata", "Raro", new ArrayList<>(Arrays.asList("Plata", "Hierro")));
-        Arma arcoElfico = new Arma(3, 2, 3, "Arco Élfico", "Epico", new ArrayList<>(Arrays.asList("Madera", "Diamante")));
-        Arma dagaObsidiana = new Arma(2, 1, 2, "Daga de Obsidiana", "Legendario", new ArrayList<>(Arrays.asList("Obsidiana", "Hierro")));
+        Arma lanzaPlata = new Arma(2, 1, 1, "Lanza de Plata", "Raro", new ArrayList<>(Arrays.asList("Plata", "Hierro")));
+        Arma arcoElfico = new Arma(3, 2, 2, "Arco Élfico", "Epico", new ArrayList<>(Arrays.asList("Madera", "Diamante")));
+        Arma dagaObsidiana = new Arma(2, 1, 1, "Daga de Obsidiana", "Legendario", new ArrayList<>(Arrays.asList("Obsidiana", "Hierro")));
 
         Armadura camisaLino = new Armadura(1, 1, "Camisa de Lino", "Comun", new ArrayList<>(Arrays.asList("Lino", "Algodon")));
         Armadura petoForjado = new Armadura(2, 2, "Peto Forjado", "Raro", new ArrayList<>(Arrays.asList("Platino", "Hierro")));
