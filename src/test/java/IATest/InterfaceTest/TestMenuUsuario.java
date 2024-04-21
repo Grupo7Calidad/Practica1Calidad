@@ -47,14 +47,14 @@ public class TestMenuUsuario {
         sistema.setUsuario(new Jugador("", "", "", null, ""));
         // Llamar a la función bajo prueba
         sistema.menuUsuario(scanner);
-        String expectedOutput = "-----------------------------------------------------\r\n" +
-                "Bienvenido al menu de gestion de usuarios " + sistema.getUsuario().getNick() + "\r\n" +
-                "Elige una de las siguientes opciones\r\n" +
-                "1. Banear usuario\r\n" +
-                "2. Desbanear usuario\r\n" +
-                "3. Volver al menu del operador\r\n" +
-                "-----------------------------------------------------\r\n";
+        String expectedOutput = "-----------------------------------------------------\n" +
+                "Bienvenido al menu de gestion de usuarios " + sistema.getUsuario().getNick() + "\n" +
+                "Elige una de las siguientes opciones\n" +
+                "1. Banear usuario\n" +
+                "2. Desbanear usuario\n" +
+                "3. Volver al menu del operador\n" +
+                "-----------------------------------------------------\n";
         // Comprobar si la salida coincide con lo esperado
-        assertEquals(expectedOutput, output.toString());
+        assertEquals(expectedOutput, output.toString().replaceAll("\r", ""));
     }
 }

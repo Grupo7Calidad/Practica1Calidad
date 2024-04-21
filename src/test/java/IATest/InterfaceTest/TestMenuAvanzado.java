@@ -41,15 +41,15 @@ public class TestMenuAvanzado {
         sistema.setUsuario(new Jugador("", "", "", null, ""));
         // Llamar a la función bajo prueba
         sistema.mostrarMenuAvanzado();
-        String expectedOutput = "-----------------------------------------------------\r\n" +
-                "Bienvenido al menu avanzado para personajes " + sistema.getUsuario().getNick() + "\r\n" +
-                "Elige una de las siguientes opciones\r\n" +
-                "1. Modificar equipo\r\n" +
-                "2. Modificar oro\r\n" +
-                "3. Consultar información del personaje\r\n" +
-                "4. Volver al menu principal\r\n" +
-                "-----------------------------------------------------\r\n";
+        String expectedOutput = "-----------------------------------------------------\n" +
+                "Bienvenido al menu avanzado para personajes " + sistema.getUsuario().getNick() + "\n" +
+                "Elige una de las siguientes opciones\n" +
+                "1. Modificar equipo\n" +
+                "2. Modificar oro\n" +
+                "3. Consultar información del personaje\n" +
+                "4. Volver al menu principal\n" +
+                "-----------------------------------------------------\n";
         // Comprobar si la salida coincide con lo esperado
-        assertEquals(expectedOutput, output.toString());
+        assertEquals(expectedOutput, output.toString().replaceAll("\r", ""));
     }
 }

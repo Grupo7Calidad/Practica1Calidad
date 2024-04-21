@@ -45,16 +45,16 @@ public class TestMenuInicio {
     public void testMenuInicio_OpcionSalir() throws Exception{
         // Llamar a la función bajo prueba
         sistema.menuInicio(scanner);
-        String expectedOutput = "----------------------------------\r\n" +
-                "   Bienvenido al Menu de Inicio   \r\n" +
-                "----------------------------------\r\n" +
-                "       Seleccione una opción      \r\n" +
-                "1 - Registrarse                   \r\n" +
-                "2 - Iniciar sesion                \r\n" +
-                "3 - Terminar ejecucion\r\n" +
-                "----------------------------------\r\n" +
-                "Saliendo...\r\n";
+        String expectedOutput = "----------------------------------\n" +
+                "   Bienvenido al Menu de Inicio   \n" +
+                "----------------------------------\n" +
+                "       Seleccione una opción      \n" +
+                "1 - Registrarse                   \n" +
+                "2 - Iniciar sesion                \n" +
+                "3 - Terminar ejecucion\n" +
+                "----------------------------------\n" +
+                "Saliendo...\n";
         // Comprobar si la salida coincide con lo esperado
-        assertEquals(expectedOutput, output.toString());
+        assertEquals(expectedOutput, output.toString().replaceAll("\r", ""));
     }
 }
