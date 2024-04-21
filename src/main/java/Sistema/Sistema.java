@@ -48,6 +48,10 @@ public class Sistema implements Serializable {
         Scanner sc = new Scanner(System.in);
         inicializarArmaduras();
         inicializarArmas();
+    }
+
+    public void initMenu() throws IOException{
+        Scanner sc = new Scanner(System.in);
         menuInicio(sc);
         suscripcionOferta = new SuscripcionOferta(sc, usuario, listaNotificadores);
     }
@@ -456,7 +460,7 @@ public class Sistema implements Serializable {
         ejecutarAccionSeleccionada(opcionMP2, sc);
     }
 
-    private void mostrarMenuAvanzado() {
+    public void mostrarMenuAvanzado() {
         System.out.println("-----------------------------------------------------");
         System.out.println("Bienvenido al menu avanzado para personajes " + usuario.getNick());
         System.out.println("Elige una de las siguientes opciones");

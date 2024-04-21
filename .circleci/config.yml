@@ -1,5 +1,3 @@
-version: 2.1
-
 jobs:
   build:
     docker:
@@ -11,6 +9,10 @@ jobs:
           command: mvn package  # Este comando compila el proyecto y empaqueta el artefacto (por ejemplo, un JAR)
       - store_artifacts:
           path: target/  # Cambia esto al directorio donde Maven genera los artefactos
+      - run:
+          name: Test with Maven
+          command: mvn test  # Este comando ejecuta las pruebas del proyecto
+
   deploy:
     docker:
       - image: cimg/base:current

@@ -13,6 +13,7 @@ public class Inicio {
             try {
                 ficheroUsuarios.createNewFile();
                 sistema = new Sistema();
+                sistema.initMenu();
             } catch (IOException e) {
                 System.err.println(e.getMessage());
             }
@@ -38,6 +39,7 @@ public class Inicio {
             return datos;
         }else {
             Sistema sistema = new Sistema();
+            sistema.initMenu();
             return sistema;
         }
     }

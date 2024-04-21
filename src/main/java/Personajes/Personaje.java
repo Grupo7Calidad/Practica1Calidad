@@ -5,6 +5,7 @@ import Equipo.Armadura;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Personaje implements Serializable {
     private String nombre;
@@ -82,5 +83,17 @@ public abstract class Personaje implements Serializable {
 
     public abstract void añadirEsbirro(Esbirro esbirro);
 
-    protected void addListaEsbirros(Esbirro esbirro) {listaEsbirros.add(esbirro); }
+    public void addListaEsbirros(Esbirro esbirro) {listaEsbirros.add(esbirro); }
+
+    public void setListaArmas(ArrayList<Arma> listaArmas){
+        this.listaArmas = listaArmas;
+    }
+
+    public void setArmasActivas(ArrayList<Arma> listaArmasActivas){
+        this.armasActivas = listaArmasActivas;
+    }
+
+    public void setListaArmaduras(ArrayList<Armadura> listaArmaduras){
+        this.listaArmaduras = listaArmaduras;
+    }
 }
