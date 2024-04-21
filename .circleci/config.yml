@@ -8,9 +8,17 @@ jobs:
       - checkout
       - run:
           name: Build with Maven
-          command: mvn package  # Este comando compila el proyecto y empaqueta el artefacto (por ejemplo, un JAR)
+          command: mvn package -DskipTests  # Este comando compila el proyecto y empaqueta el artefacto (por ejemplo, un JAR)
       - store_artifacts:
           path: target/  # Cambia esto al directorio donde Maven genera los artefactos
+  test:
+    docker:
+      - image: cimg/openjdk:17.0  # Usamos una imagen de Docker con Java y Maven preinstalados
+    steps:
+      - checkout
+      - run:
+          name: Build with Maven
+          command: mvn test
   deploy:
     docker:
       - image: cimg/base:current
@@ -24,6 +32,10 @@ workflows:
   example:
     jobs:
       - build
+      - test:
+          requires:
+            -build
       - deploy:
           requires:
             - build
+            - test
