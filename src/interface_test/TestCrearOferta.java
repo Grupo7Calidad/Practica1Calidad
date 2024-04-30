@@ -1,4 +1,4 @@
-package IATest.InterfaceTest;
+package interface_test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

@@ -1,48 +1,50 @@
-package IATest.InterfaceTest;
+package interface_test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import Sistema.Sistema;
-import Usuario.Jugador;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.Scanner;
 
-public class TestMostrarNotificaciones {
+public class TestConsultarOfertas {
 
+    private final ByteArrayInputStream input = new ByteArrayInputStream("2\n".getBytes());
     private final ByteArrayOutputStream output = new ByteArrayOutputStream();
+    private Scanner scanner;
     private static Sistema sistema;
 
     @BeforeAll
-    public static void setup(){
+    public static void setup() {
         try {
             sistema = new Sistema();
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
 
     @BeforeEach
     public void setUpStreams() {
+        System.setIn(input);
         System.setOut(new PrintStream(output));
+        scanner = new Scanner(System.in);
     }
 
     @AfterEach
     public void restoreStreams() {
+        System.setIn(System.in);
         System.setOut(System.out);
     }
+
     @Test
-    public void testMostrarNotificaciones() throws Exception {
-        Jugador tester = new Jugador("Tester", "test", "12345", null, "42");
-        sistema.setUsuario(tester);
-        tester.addNotificacion("El test funciona!");
-        tester.addNotificacion("Y sigue funcionando!");
-        sistema.mostrarNotificaciones();
-        String expectedOutput = "El test funciona!\n" +
-                "Y sigue funcionando!\n";
+    public void testConsultarOfertas() throws Exception {
+        sistema.consultarOferta(scanner);
+        String expectedOutput = "No hay ofertas disponibles\n";
         // Comprobar si la salida coincide con lo esperado
         assertEquals(expectedOutput, output.toString().replaceAll("\r", ""));
     }
