@@ -1,5 +1,7 @@
 package integrationTests;
 
+import Equipo.Equipo;
+import Equipo.Armadura;
 import Personajes.Cazador;
 import Personajes.Personaje;
 import Sistema.Sistema;
@@ -29,9 +31,11 @@ public class VentasIntegrationTest {
         );
         sharedSamplePlayer = testPlayer;
         // 2) Adding the new offer
+        ArrayList<Equipo> armorList = new ArrayList<>();
+        armorList.add(new Armadura(1, 1, "peto mágico", null, null));
         List<Oferta> offerList = new ArrayList<>();
         Oferta testOffer = new Oferta(
-                null, null, 1000, testPlayer
+                armorList, null, 1000, testPlayer
         );
         offerList.add(testOffer);
         // 3) Saving offer
@@ -61,7 +65,7 @@ public class VentasIntegrationTest {
     void acceptOfferAndPurchaseTest(){
         // 1) Creating the buyer
         Personaje testCharacter = new Cazador(
-                "Eren", null, null, null, null, 2000, 3
+                "Eren", new ArrayList<>(), null, new ArrayList<>(), null, 2000, 3
         );
         Jugador testPlayer = new Jugador(
                 "Matt", "Matt4321", "1234", testCharacter, null
@@ -74,7 +78,14 @@ public class VentasIntegrationTest {
         } catch (NoSuchFieldException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
-        // 3) Verificar el inventario de un jugador
+        // 3) Check buyer's inventory
+        List<Oferta> notValidatedOffers = sharedSistemaInstance.getListaOfertasNoValidadas();
+        Oferta currentOffer = notValidatedOffers.get(0);
+        Armadura currentArmor = (Armadura) currentOffer.getListaEquipo().get(0);
+        ArrayList<Armadura> characterArmors = testCharacter.getListaArmaduras();
+        characterArmors.add(currentArmor);
+
+        assertFalse(testPlayer.getPersonaje().getListaArmaduras().isEmpty());
     }
     @Test
     void validateOfferAndPurchaseWithOperatorTest(){
